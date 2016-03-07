@@ -44,7 +44,7 @@ public partial class MainWindow: Gtk.Window
 	}
 	protected void OnDeleteEvent (object sender, EventArgs a)
 	{
-		while (0 != notebook.Page)
+		while (notebook.NPages > 0)
 			closeDoc (null, null);
 		Application.Quit ();
 		//a.RetVal = true;

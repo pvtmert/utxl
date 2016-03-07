@@ -71,6 +71,8 @@ public partial class MainWindow
 	
 	private global::Gtk.Action fontsAction;
 	
+	private global::Gtk.Action runAction;
+	
 	private global::Gtk.VPaned vpaned1;
 	
 	private global::Gtk.MenuBar menubar1;
@@ -177,6 +179,9 @@ public partial class MainWindow
 		this.fontsAction = new global::Gtk.Action ("fontsAction", global::Mono.Unix.Catalog.GetString ("fonts"), null, null);
 		this.fontsAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("fonts");
 		w1.Add (this.fontsAction, null);
+		this.runAction = new global::Gtk.Action ("runAction", global::Mono.Unix.Catalog.GetString ("run"), null, null);
+		this.runAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("run");
+		w1.Add (this.runAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -190,7 +195,7 @@ public partial class MainWindow
 		this.vpaned1.Name = "vpaned1";
 		this.vpaned1.Position = 24;
 		// Container child vpaned1.Gtk.Paned+PanedChild
-		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='fileAction' action='fileAction'><menuitem name='newAction1' action='newAction1'/><menuitem name='openAction1' action='openAction1'/><menuitem name='saveAction1' action='saveAction1'/><menuitem name='saveAsAction' action='saveAsAction'/><menuitem name='deleteAction' action='deleteAction'/><menuitem name='printAction1' action='printAction1'/><menuitem name='dndAction' action='dndAction'/><menuitem name='quitAction1' action='quitAction1'/></menu><menu name='editAction' action='editAction'><menuitem name='undoAction1' action='undoAction1'/><menuitem name='redoAction1' action='redoAction1'/><menuitem name='formatAction' action='formatAction'/><menuitem name='syntaxAction' action='syntaxAction'/><menuitem name='fontsAction' action='fontsAction'/><menuitem name='colorsAction' action='colorsAction'/><menuitem name='notesAction' action='notesAction'/><menuitem name='preferencesAction1' action='preferencesAction1'/></menu><menu name='toolsAction' action='toolsAction'><menuitem name='buildAction' action='buildAction'/><menuitem name='cleanAction' action='cleanAction'/></menu><menu name='helpAction' action='helpAction'><menuitem name='helpAction1' action='helpAction1'/><menuitem name='dialogInfoAction' action='dialogInfoAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='fileAction' action='fileAction'><menuitem name='newAction1' action='newAction1'/><menuitem name='openAction1' action='openAction1'/><menuitem name='saveAction1' action='saveAction1'/><menuitem name='saveAsAction' action='saveAsAction'/><menuitem name='deleteAction' action='deleteAction'/><menuitem name='printAction1' action='printAction1'/><menuitem name='dndAction' action='dndAction'/><menuitem name='quitAction1' action='quitAction1'/></menu><menu name='editAction' action='editAction'><menuitem name='undoAction1' action='undoAction1'/><menuitem name='redoAction1' action='redoAction1'/><menuitem name='formatAction' action='formatAction'/><menuitem name='syntaxAction' action='syntaxAction'/><menuitem name='fontsAction' action='fontsAction'/><menuitem name='colorsAction' action='colorsAction'/><menuitem name='notesAction' action='notesAction'/><menuitem name='preferencesAction1' action='preferencesAction1'/></menu><menu name='toolsAction' action='toolsAction'><menuitem name='runAction' action='runAction'/><menuitem name='buildAction' action='buildAction'/><menuitem name='cleanAction' action='cleanAction'/></menu><menu name='helpAction' action='helpAction'><menuitem name='helpAction1' action='helpAction1'/><menuitem name='dialogInfoAction' action='dialogInfoAction'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vpaned1.Add (this.menubar1);
