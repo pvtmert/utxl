@@ -238,6 +238,7 @@ public partial class MainWindow
 		this.saveAction1.Activated += new global::System.EventHandler (this.saveDoc);
 		this.deleteAction.Activated += new global::System.EventHandler (this.closeDoc);
 		this.quitAction1.Activated += new global::System.EventHandler (this.OnDeleteEvent);
+		this.dialogInfoAction.Activated += new global::System.EventHandler (this.aboutDialog);
 		this.deleteAction1.Activated += new global::System.EventHandler (this.closeDoc);
 		this.fontsAction.Activated += new global::System.EventHandler (this.changeFont);
 	}

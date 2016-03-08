@@ -1,5 +1,12 @@
-﻿using System;
+﻿// csharptermproject
+// text-editor, unified, extensible
+// author: mert akengin
+// team members: omar albeik, zafer huzmeli
+// created: 2016 march 3
+
+using System;
 using Gtk;
+
 using FastColoredTextBoxNS;
 using IniParser;
 
@@ -29,6 +36,7 @@ public partial class MainWindow: Gtk.Window
 	}
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{
+		this.SetIconFromFile ("icon.png");
 		System.IO.File.AppendAllText ("settings.ini", "");
 		loadSettings ();
 		Build ();
@@ -120,9 +128,9 @@ public partial class MainWindow: Gtk.Window
 			ResponseType r = (ResponseType) d.Run ();
 			if (r == ResponseType.Yes)
 				saveDoc (null, null);
-			//else if (r == ResponseType.No)
-			//	closeTab (notebook.Page);
 			d.Destroy ();
+			if (r != ResponseType.No)
+				return;
 		}
 		closeTab (notebook.Page);
 		return;
@@ -138,6 +146,25 @@ public partial class MainWindow: Gtk.Window
 		settings ["ui"] ["font"] = d.FontName;
 		d.Destroy ();
 		saveSettings ();
+		return;
+	}
+	protected void aboutDialog(object sender, EventArgs e)
+	{
+		AboutDialog d = new AboutDialog ();
+		d.Authors = new string [] {
+			"mert akengin",
+			"omar albeik",
+			"zafer huzmeli"
+		};
+		d.ProgramName = "Unified Text Editor Lite";
+		d.Version = UTXL.MainClass.verstr;
+		d.WindowPosition = WindowPosition.Mouse;
+		if(System.IO.File.Exists("LICENSE.md"))
+			d.License = System.IO.File.ReadAllText ("LICENSE.md");
+		if(System.IO.File.Exists("COPYING.md"))
+			d.Comments = System.IO.File.ReadAllText("COPYING.md");
+		d.Run ();
+		d.Destroy ();
 		return;
 	}
 }
