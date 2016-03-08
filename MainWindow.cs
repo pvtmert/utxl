@@ -60,6 +60,7 @@ public partial class MainWindow: Gtk.Window
 	}
 	protected void newTab(string label, string contents = null)
 	{
+		ScrolledWindow w = new ScrolledWindow ();
 		TextView t = new TextView ();
 		t.LeftMargin = t.RightMargin = 5;
 		t.PixelsAboveLines = 3;
@@ -67,7 +68,8 @@ public partial class MainWindow: Gtk.Window
 		t.ModifyFont (Pango.FontDescription.FromString (settings["ui"]["font"]));
 		t.Buffer.Text = contents;
 		Label l = new Label (label);
-		notebook.AppendPage (t,l);
+		w.Add (t);
+		notebook.AppendPage (w,l);
 		notebook.SetTabReorderable (this, true);
 		notebook.ShowAll ();
 		return;
@@ -105,7 +107,7 @@ public partial class MainWindow: Gtk.Window
 		                      );
 		if ((ResponseType)d.Run () == ResponseType.Accept) {
 			System.IO.File.WriteAllText (d.Filename,
-				((TextView)notebook.GetNthPage (notebook.Page)).Buffer.Text);
+				((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text);
 			//((TextView)notebook.Children [notebook.Page]).Buffer.Text
 			notebook.SetTabLabelText (notebook.GetNthPage (notebook.Page),
 				System.IO.Path.GetFileName (d.Filename));
@@ -122,7 +124,7 @@ public partial class MainWindow: Gtk.Window
 		if (notebook.NPages < 1)
 			return;
 		//if (((TextView)notebook.Children [notebook.Page]).Buffer.Text.Length > 0) {
-		if (((TextView)notebook.GetNthPage(notebook.Page)).Buffer.Text.Length > 0) {
+		if (((TextView)((ScrolledWindow)notebook.GetNthPage(notebook.Page)).Child).Buffer.Text.Length > 0) {
 			MessageDialog d = new MessageDialog (this, DialogFlags.Modal, 
 				MessageType.Question, ButtonsType.YesNo, "Changes not saved! Want to save?");
 			ResponseType r = (ResponseType) d.Run ();
@@ -141,7 +143,7 @@ public partial class MainWindow: Gtk.Window
 		d.SetFontName (settings ["ui"] ["font"]);
 		if ((ResponseType) d.Run () == ResponseType.Ok) {
 			for (int i = 0; i < notebook.NPages; i++)
-				((TextView)notebook.GetNthPage (i)).ModifyFont (Pango.FontDescription.FromString(d.FontName));
+				((TextView)((ScrolledWindow)notebook.GetNthPage (i)).Child).ModifyFont (Pango.FontDescription.FromString(d.FontName));
 		}
 		settings ["ui"] ["font"] = d.FontName;
 		d.Destroy ();
