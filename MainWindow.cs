@@ -63,7 +63,7 @@ public partial class MainWindow: Gtk.Window
 		TextView t = new TextView ();
 		t.LeftMargin = t.RightMargin = 5;
 		t.PixelsAboveLines = 3;
-		t.WrapMode = WrapMode.Word;
+		t.WrapMode = WrapMode.WordChar;
 		t.ModifyFont (Pango.FontDescription.FromString (settings["ui"]["font"]));
 		t.Buffer.Text = contents;
 		Label l = new Label (label);
