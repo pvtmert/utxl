@@ -1,9 +1,9 @@
 ﻿# c-sharp term project
 
-	authors:
-	mert akengin / [@pvtmert]
-	omar albeik / [@omaralbeik]
-	zafer huzmeli / [@zaferhuzmeli]
+> authors:
+> mert akengin / [@pvtmert]
+> omar albeik / [@omaralbeik]
+> zafer huzmeli / [@zaferhuzmeli]
 
 #### more to come later...
 
