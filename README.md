@@ -7,6 +7,6 @@ authors:
 
 #### more to come later...
 
-[@pvtmert]: (//github.com/pvtmert)
-[@omaralbeik]: (//github.com/omaralbeik)
-[@zaferhuzmeli]: (//github.com/zaferhuzmeli)
+[@pvtmert]: //github.com/pvtmert
+[@omaralbeik]: //github.com/omaralbeik
+[@zaferhuzmeli]: //github.com/zaferhuzmeli
