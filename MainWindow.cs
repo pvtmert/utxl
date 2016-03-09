@@ -70,7 +70,7 @@ public partial class MainWindow: Gtk.Window
 		Label l = new Label (label);
 		w.Add (t);
 		notebook.AppendPage (w,l);
-		notebook.SetTabReorderable (this, true);
+		notebook.SetTabReorderable (notebook.GetNthPage(notebook.NPages-1), true);
 		notebook.ShowAll ();
 		return;
 	}
