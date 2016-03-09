@@ -274,5 +274,6 @@ public partial class main
 		this.preferencesAction1.Activated += new global::System.EventHandler (this.changeFont);
 		this.closeAction.Activated += new global::System.EventHandler (this.closeDoc);
 		this.fontsAction.Activated += new global::System.EventHandler (this.changeFont);
+		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.treeOpen);
 	}
 }

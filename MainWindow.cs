@@ -43,7 +43,6 @@ public partial class main: Gtk.Window
 	private void threadAdapter(object dir) {
 		if (dir == null)
 			dir = ".";
-		Console.WriteLine ("x"+(string)dir+"x");
 		populateTree ((TreeStore)tree.Model, (string)dir, TreeIter.Zero);
 		tree.Show ();
 		return;
@@ -65,7 +64,7 @@ public partial class main: Gtk.Window
 		//notebook.HomogeneousTabs = true;
 		newTab ("hello world", "welcome to utxl!\n");
 		tree.AppendColumn ("files", new CellRendererText (), "text", 0);
-		TreeStore t = new TreeStore (typeof(string));
+		TreeStore t = new TreeStore (typeof(string),typeof(string));
 		tree.Model = t;
 		try {
 			System.Threading.Thread th = new System.Threading.Thread (threadAdapter);
@@ -221,23 +220,33 @@ public partial class main: Gtk.Window
 	{
 		try {
 			TreeIter p;
-			string fp;
-			fp = System.IO.Path.GetFullPath(root);
+			System.IO.Path.GetFullPath(root);
 			if (parent.Equals(TreeIter.Zero))
-				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root), fp } );
+				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root), System.IO.Path.GetFullPath(root), } );
 			else
-				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root), fp } );
+				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root), System.IO.Path.GetFullPath(root), } );
 			foreach (string d in System.IO.Directory.GetDirectories(root)) {
 				this.populateTree (t,d,p);
 				continue;
 			}
 			foreach (string f in System.IO.Directory.GetFiles(root,"*")) {
-				t.AppendValues(p, new string [] { System.IO.Path.GetFileName(f), fp } );
+				t.AppendValues(p, new string [] { System.IO.Path.GetFileName(f), System.IO.Path.GetFullPath(f), } );
 				continue;
 			}
 		} catch(Exception e) {
 			Console.WriteLine (e.Message);
 		}
+		return;
+	}
+
+	protected void treeOpen (object o, RowActivatedArgs args)
+	{
+		TreeIter i;
+		((TreeStore)tree.Model).GetIter (out i, args.Path);
+		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
+			return;
+		newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
+			System.IO.File.ReadAllText ((string)((TreeStore)tree.Model).GetValue (i, 1)));
 		return;
 	}
 }
