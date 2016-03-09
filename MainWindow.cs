@@ -10,7 +10,7 @@ using Gtk;
 using FastColoredTextBoxNS;
 using IniParser;
 
-public partial class MainWindow: Gtk.Window
+public partial class main: Gtk.Window
 {
 	IniParser.Model.IniData settings;
 	protected void loadSettings()
@@ -20,9 +20,13 @@ public partial class MainWindow: Gtk.Window
 		settings ["ui"].AddKey ("font");
 		settings ["ui"].AddKey ("color");
 		settings ["ui"].AddKey ("background");
+		settings ["ui"].AddKey ("W");
+		settings ["ui"].AddKey ("H");
 		settings ["ui"] ["font"] = "monospace 12";
 		settings ["ui"] ["color"] = "black";
 		settings ["ui"] ["background"] = "white";
+		settings ["ui"] ["W"] = "800";
+		settings ["ui"] ["H"] = "600";
 		IniParser.Model.IniData _set = new FileIniDataParser ().ReadFile ("settings.ini");
 		if(_set != null)
 			settings.Merge (_set);
@@ -34,12 +38,18 @@ public partial class MainWindow: Gtk.Window
 			return;
 		new FileIniDataParser ().WriteFile ("settings.ini", settings);
 	}
-	public MainWindow () : base (Gtk.WindowType.Toplevel)
+	public main () : base (Gtk.WindowType.Toplevel)
 	{
 		this.SetIconFromFile ("icon.png");
+		SetDefaultIconFromFile ("icon.png");
 		System.IO.File.AppendAllText ("settings.ini", "");
 		loadSettings ();
 		Build ();
+		this.SetDefaultSize (
+			int.Parse (settings ["ui"] ["W"]),
+			int.Parse (settings ["ui"] ["H"])
+		);
+		this.Show ();
 		notebook.Scrollable = true;
 		notebook.EnablePopup = true;
 		//notebook.HomogeneousTabs = true;
@@ -52,10 +62,11 @@ public partial class MainWindow: Gtk.Window
 	}
 	protected void OnDeleteEvent (object sender, EventArgs a)
 	{
-		while (notebook.NPages > 0)
+		for (int i = 0; i < notebook.NPages; i++)
 			closeDoc (null, null);
+		if(settings != null)
+			saveSettings ();
 		Application.Quit ();
-		//a.RetVal = true;
 		return;
 	}
 	protected void newTab(string label, string contents = null)
@@ -72,6 +83,8 @@ public partial class MainWindow: Gtk.Window
 		notebook.AppendPage (w,l);
 		notebook.SetTabReorderable (notebook.GetNthPage(notebook.NPages-1), true);
 		notebook.ShowAll ();
+		for (int i = notebook.Page; i < notebook.NPages; i++)
+			notebook.NextPage ();
 		return;
 	}
 	protected void closeTab(int num)
@@ -167,6 +180,15 @@ public partial class MainWindow: Gtk.Window
 			d.Comments = System.IO.File.ReadAllText("COPYING.md");
 		d.Run ();
 		d.Destroy ();
+		return;
+	}
+
+	protected void winResize (object o, SizeRequestedArgs args)
+	{
+		int x, y;
+		this.GetSize (out x, out y);
+		settings ["ui"] ["W"] = x.ToString ();
+		settings ["ui"] ["H"] = y.ToString ();
 		return;
 	}
 }

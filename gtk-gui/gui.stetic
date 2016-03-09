@@ -4,9 +4,9 @@
     <images-root-path>..</images-root-path>
   </configuration>
   <import>
-    <widget-library name="../bin/Release/UTXL.exe" internal="true" />
+    <widget-library name="../bin/Debug/UTXL.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="499 389">
+  <widget class="Gtk.Window" id="main" design-size="629 436">
     <action-group name="Default">
       <action id="fileAction">
         <property name="Type">Action</property>
@@ -186,11 +186,12 @@
         <property name="Label" translatable="yes">preferences</property>
         <property name="ShortLabel" translatable="yes">preferences</property>
         <property name="StockId">gtk-preferences</property>
+        <signal name="Activated" handler="changeFont" />
       </action>
-      <action id="deleteAction1">
+      <action id="closeAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-delete</property>
+        <property name="StockId">gtk-close</property>
         <signal name="Activated" handler="closeDoc" />
       </action>
       <action id="fontsAction">
@@ -204,22 +205,31 @@
         <property name="Label" translatable="yes">run</property>
         <property name="ShortLabel" translatable="yes">run</property>
       </action>
+      <action id="saveAsAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-save-as</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">Unified Text Editor Lite</property>
     <property name="WindowPosition">Mouse</property>
+    <property name="AllowShrink">True</property>
     <property name="DefaultWidth">640</property>
     <property name="DefaultHeight">480</property>
+    <property name="Gravity">Center</property>
+    <property name="Role">text editor</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="SizeRequested" handler="winResize" />
     <child>
       <widget class="Gtk.VPaned" id="vpaned1">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
         <property name="Position">24</property>
         <child>
-          <widget class="Gtk.MenuBar" id="menubar1">
+          <widget class="Gtk.MenuBar" id="menu">
             <property name="MemberName" />
-            <node name="menubar1" type="Menubar">
+            <node name="menu" type="Menubar">
               <node type="Menu" action="fileAction">
                 <node type="Menuitem" action="newAction1" />
                 <node type="Menuitem" action="openAction1" />
@@ -233,11 +243,6 @@
               <node type="Menu" action="editAction">
                 <node type="Menuitem" action="undoAction1" />
                 <node type="Menuitem" action="redoAction1" />
-                <node type="Menuitem" action="formatAction" />
-                <node type="Menuitem" action="syntaxAction" />
-                <node type="Menuitem" action="fontsAction" />
-                <node type="Menuitem" action="colorsAction" />
-                <node type="Menuitem" action="notesAction" />
                 <node type="Menuitem" action="preferencesAction1" />
               </node>
               <node type="Menu" action="toolsAction">
@@ -256,20 +261,21 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HPaned" id="hpaned1">
+          <widget class="Gtk.VPaned" id="vpaned2">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">34</property>
+            <property name="Position">30</property>
             <child>
-              <widget class="Gtk.Toolbar" id="toolbar1">
+              <widget class="Gtk.Toolbar" id="tools">
                 <property name="MemberName" />
-                <property name="Orientation">Vertical</property>
                 <property name="ShowArrow">False</property>
-                <node name="toolbar1" type="Toolbar">
+                <property name="IconSize">SmallToolbar</property>
+                <node name="tools" type="Toolbar">
                   <node type="Toolitem" action="newAction" />
                   <node type="Toolitem" action="openAction" />
                   <node type="Toolitem" action="saveAction" />
-                  <node type="Toolitem" action="deleteAction1" />
+                  <node type="Toolitem" action="saveAsAction1" />
+                  <node type="Toolitem" action="closeAction" />
                   <node type="Toolitem" action="printAction" />
                   <node type="Toolitem" action="undoAction" />
                   <node type="Toolitem" action="redoAction" />
@@ -282,15 +288,32 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Notebook" id="notebook">
+              <widget class="Gtk.HPaned" id="hpaned1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">0</property>
+                <property name="Position">142</property>
                 <child>
-                  <placeholder />
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="tree">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Resize">False</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder />
+                  <widget class="Gtk.Notebook" id="notebook">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="CurrentPage">-1</property>
+                  </widget>
                 </child>
               </widget>
             </child>

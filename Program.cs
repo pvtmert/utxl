@@ -10,7 +10,7 @@ namespace UTXL
 		{
 			verstr = "";
 			Application.Init ();
-			MainWindow win = new MainWindow ();
+			main win = new main ();
 			win.Show ();
 			Application.Run ();
 		}
