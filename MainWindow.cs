@@ -38,6 +38,16 @@ public partial class main: Gtk.Window
 			return;
 		new FileIniDataParser ().WriteFile ("settings.ini", settings);
 	}
+
+	//private System.Threading.Thread tree_thread;
+	private void threadAdapter(object dir) {
+		if (dir == null)
+			dir = ".";
+		Console.WriteLine ("x"+(string)dir+"x");
+		populateTree ((TreeStore)tree.Model, (string)dir, TreeIter.Zero);
+		tree.Show ();
+		return;
+	}
 	public main () : base (Gtk.WindowType.Toplevel)
 	{
 		this.SetIconFromFile ("icon.png");
@@ -54,6 +64,15 @@ public partial class main: Gtk.Window
 		notebook.EnablePopup = true;
 		//notebook.HomogeneousTabs = true;
 		newTab ("hello world", "welcome to utxl!\n");
+		tree.AppendColumn ("files", new CellRendererText (), "text", 0);
+		TreeStore t = new TreeStore (typeof(string));
+		tree.Model = t;
+		try {
+			System.Threading.Thread th = new System.Threading.Thread (threadAdapter);
+			th.Start (System.IO.Directory.GetCurrentDirectory ());
+		} catch(Exception e) {
+			Console.WriteLine (e.Message);
+		}
 		return;
 	}
 	protected bool test()
@@ -108,6 +127,12 @@ public partial class main: Gtk.Window
 			newTab (System.IO.Path.GetFileName (d.Filename),
 				System.IO.File.ReadAllText (d.Filename));
 		//((TextView)notebook.Children [notebook.Page]).Buffer.Text = 
+		try {
+			System.Threading.Thread th = new System.Threading.Thread (threadAdapter);
+			th.Start ( System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath (d.Filename)));
+		} catch(Exception x) {
+			Console.WriteLine (x.Message);
+		}
 		d.Destroy ();
 		return;
 	}
@@ -189,6 +214,30 @@ public partial class main: Gtk.Window
 		this.GetSize (out x, out y);
 		settings ["ui"] ["W"] = x.ToString ();
 		settings ["ui"] ["H"] = y.ToString ();
+		return;
+	}
+
+	private void populateTree(TreeStore t, string root, TreeIter parent) 
+	{
+		try {
+			TreeIter p;
+			string fp;
+			fp = System.IO.Path.GetFullPath(root);
+			if (parent.Equals(TreeIter.Zero))
+				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root), fp } );
+			else
+				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root), fp } );
+			foreach (string d in System.IO.Directory.GetDirectories(root)) {
+				this.populateTree (t,d,p);
+				continue;
+			}
+			foreach (string f in System.IO.Directory.GetFiles(root,"*")) {
+				t.AppendValues(p, new string [] { System.IO.Path.GetFileName(f), fp } );
+				continue;
+			}
+		} catch(Exception e) {
+			Console.WriteLine (e.Message);
+		}
 		return;
 	}
 }
