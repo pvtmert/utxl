@@ -10,6 +10,8 @@ using Gtk;
 using FastColoredTextBoxNS;
 using IniParser;
 
+using Alpinechough.Common.GtkUtilities;
+
 public partial class main: Gtk.Window
 {
 	IniParser.Model.IniData settings;
@@ -99,10 +101,15 @@ public partial class main: Gtk.Window
 		t.WrapMode = WrapMode.WordChar;
 		t.ModifyFont (Pango.FontDescription.FromString (settings["ui"]["font"]));
 		t.Buffer.Text = contents;
-		Label l = new Label (label);
+		//Label l = new Label (label);
+		NotebookTabLabel l = new NotebookTabLabel(label);
 		w.Add (t);
 		notebook.AppendPage (w,l);
 		notebook.SetTabReorderable (notebook.GetNthPage(notebook.NPages-1), true);
+		notebook.SetTabDetachable (notebook.GetNthPage (notebook.NPages - 1), true);
+		l.CloseClicked += delegate(object obj, EventArgs eventArgs) {
+			closeTab (notebook.PageNum(t));
+		};
 		notebook.ShowAll ();
 		for (int i = notebook.Page; i < notebook.NPages; i++)
 			notebook.NextPage ();
@@ -255,5 +262,18 @@ public partial class main: Gtk.Window
 				System.IO.File.ReadAllText ((string)(
 					(TreeStore)tree.Model).GetValue (i, 1)));
 		return;
+	}
+
+	protected bool treeSearch(TreeStore t, string fp)
+	{
+		if (t == null)
+			return false;
+		t.Foreach(new TreeModelForeachFunc(delegate(TreeModel m, TreePath p, TreeIter i) {
+			t.GetIter (out i, p);
+			if((string)m.GetValue(i,1) == fp)
+				return true;
+			return false;
+		}));
+		return false;
 	}
 }
