@@ -11,8 +11,6 @@
     <ApplicationIcon>app.ico</ApplicationIcon>
     <ReleaseVersion>0.2</ReleaseVersion>
     <StartupObject>UTXL.MainClass</StartupObject>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,6 +71,7 @@
     <Compile Include="gtk-gui\main.cs" />
     <Compile Include="main.cs" />
     <Compile Include="nbtablbl.cs" />
+    <Compile Include="settings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

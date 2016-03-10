@@ -8,40 +8,13 @@ using System;
 using Gtk;
 
 using FastColoredTextBoxNS;
-using IniParser;
 
 using Alpinechough.Common.GtkUtilities;
+using UTXL;
 
 public partial class main: Gtk.Window
 {
-	IniParser.Model.IniData settings;
-	protected void loadSettings()
-	{
-		settings = new IniParser.Model.IniData ();
-		settings.Sections.AddSection ("ui");
-		settings ["ui"].AddKey ("font");
-		settings ["ui"].AddKey ("color");
-		settings ["ui"].AddKey ("background");
-		settings ["ui"].AddKey ("W");
-		settings ["ui"].AddKey ("H");
-		settings ["ui"] ["font"] = "monospace 12";
-		settings ["ui"] ["color"] = "black";
-		settings ["ui"] ["background"] = "white";
-		settings ["ui"] ["W"] = "800";
-		settings ["ui"] ["H"] = "600";
-		IniParser.Model.IniData _set = new FileIniDataParser ().ReadFile ("settings.ini");
-		if(_set != null)
-			settings.Merge (_set);
-		return;
-	}
-	protected void saveSettings()
-	{
-		if (settings == null)
-			return;
-		new FileIniDataParser ().WriteFile ("settings.ini", settings);
-	}
-
-	//private System.Threading.Thread tree_thread;
+	private settings settings;
 	private void threadAdapter(object dir) {
 		if (dir == null)
 			dir = ".";
@@ -51,15 +24,13 @@ public partial class main: Gtk.Window
 	}
 	public main () : base (Gtk.WindowType.Toplevel)
 	{
+		settings = new settings ();
 		this.SetIconFromFile ("icon.png");
 		SetDefaultIconFromFile ("icon.png");
 		System.IO.File.AppendAllText ("settings.ini", "");
-		loadSettings ();
+		settings.load ();
 		Build ();
-		this.SetDefaultSize (
-			int.Parse (settings ["ui"] ["W"]),
-			int.Parse (settings ["ui"] ["H"])
-		);
+		this.Resize (settings.width, settings.height);
 		this.Show ();
 		notebook.Scrollable = true;
 		notebook.EnablePopup = true;
@@ -88,7 +59,7 @@ public partial class main: Gtk.Window
 		for (int i = 0; i < notebook.NPages; i++)
 			closeDoc (null, null);
 		if(settings != null)
-			saveSettings ();
+			settings.save ();
 		Application.Quit ();
 		return;
 	}
@@ -99,12 +70,12 @@ public partial class main: Gtk.Window
 		t.LeftMargin = t.RightMargin = 5;
 		t.PixelsAboveLines = 3;
 		t.WrapMode = WrapMode.WordChar;
-		t.ModifyFont (Pango.FontDescription.FromString (settings["ui"]["font"]));
+		t.ModifyFont (Pango.FontDescription.FromString (settings.font));
 		t.Buffer.Text = contents;
 		//Label l = new Label (label);
 		NotebookTabLabel l = new NotebookTabLabel(label);
 		w.Add (t);
-		notebook.AppendPage (w,l);
+		notebook.AppendPageMenu (w,l,new Label(label));
 		notebook.SetTabReorderable (notebook.GetNthPage (notebook.NPages - 1), true);
 		notebook.SetTabDetachable (notebook.GetNthPage (notebook.NPages - 1), true);
 		l.CloseClicked += delegate(object obj, EventArgs eventArgs) {
@@ -183,19 +154,20 @@ public partial class main: Gtk.Window
 				return;
 		}
 		closeTab (notebook.Page);
+		notebook.ShowAll ();
 		return;
 	}
 	protected void changeFont (object sender, EventArgs e)
 	{
 		FontSelectionDialog d = new FontSelectionDialog ("FONT!");
-		d.SetFontName (settings ["ui"] ["font"]);
+		d.SetFontName (settings.font);
 		if ((ResponseType) d.Run () == ResponseType.Ok) {
 			for (int i = 0; i < notebook.NPages; i++)
 				((TextView)((ScrolledWindow)notebook.GetNthPage (i)).Child).ModifyFont (Pango.FontDescription.FromString(d.FontName));
 		}
-		settings ["ui"] ["font"] = d.FontName;
+		settings.font = d.FontName;
 		d.Destroy ();
-		saveSettings ();
+		settings.save ();
 		return;
 	}
 	protected void aboutDialog(object sender, EventArgs e)
@@ -222,8 +194,8 @@ public partial class main: Gtk.Window
 	{
 		int x, y;
 		this.GetSize (out x, out y);
-		settings ["ui"] ["W"] = x.ToString ();
-		settings ["ui"] ["H"] = y.ToString ();
+		settings.width = x;
+		settings.height = y;
 		return;
 	}
 

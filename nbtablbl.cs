@@ -26,7 +26,7 @@ namespace Alpinechough.Common.GtkUtilities
 	public class NotebookTabLabel : EventBox
 	{
 		public string Text;
-		public void Get(string s) {
+		public void Get(ref string s) {
 			s = Text;
 		}
 		public NotebookTabLabel (string title)
@@ -61,7 +61,6 @@ namespace Alpinechough.Common.GtkUtilities
 		}
 
 		public event EventHandler<EventArgs> CloseClicked;
-
 		public void OnCloseClicked (object sender, EventArgs e)
 		{
 			if (CloseClicked != null)
