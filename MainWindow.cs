@@ -121,17 +121,17 @@ public partial class main: Gtk.Window
 	protected void openDoc (object sender, EventArgs e)
 	{
 		FileChooserDialog d = new FileChooserDialog (
-								  "OPEN STUFF", this, FileChooserAction.Open,
-			                      "OPEN!", ResponseType.Accept,
-			                      "NOPE", ResponseType.Cancel
-		                      );
+			"OPEN STUFF", this, FileChooserAction.SelectFolder,
+			"OPEN!", ResponseType.Accept,
+			"NOPE", ResponseType.Cancel
+		);
 		if ((ResponseType)d.Run () == ResponseType.Accept)
-			newTab (System.IO.Path.GetFileName (d.Filename),
-				System.IO.File.ReadAllText (d.Filename));
+			//newTab (System.IO.Path.GetFileName (d.Filename),
+			//	System.IO.File.ReadAllText (d.Filename));
 		//((TextView)notebook.Children [notebook.Page]).Buffer.Text = 
 		try {
 			new System.Threading.Thread (threadAdapter)
-				.Start ( System.IO.Path.GetDirectoryName(
+				.Start ( /*System.IO.Path.GetDirectoryName*/ (
 					System.IO.Path.GetFullPath (d.Filename)));
 		} catch(Exception x) {
 			Console.WriteLine (x.Message);
@@ -229,7 +229,8 @@ public partial class main: Gtk.Window
 			else
 				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root), System.IO.Path.GetFullPath(root), } );
 			foreach (string d in System.IO.Directory.GetDirectories(root)) {
-				this.populateTree (t,d,p);
+				if (parent.Equals(TreeIter.Zero))
+					this.populateTree (t,d,p);
 				continue;
 			}
 			foreach (string f in System.IO.Directory.GetFiles(root,"*")) {
@@ -247,9 +248,12 @@ public partial class main: Gtk.Window
 		TreeIter i;
 		((TreeStore)tree.Model).GetIter (out i, args.Path);
 		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
-			return;
-		newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
-			System.IO.File.ReadAllText ((string)((TreeStore)tree.Model).GetValue (i, 1)));
+			foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
+				populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
+		else
+			newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
+				System.IO.File.ReadAllText ((string)(
+					(TreeStore)tree.Model).GetValue (i, 1)));
 		return;
 	}
 }
