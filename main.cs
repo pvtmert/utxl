@@ -54,15 +54,6 @@ public partial class main: Gtk.Window
 	{
 		return false;
 	}
-	protected void OnDeleteEvent (object sender, EventArgs a)
-	{
-		for (int i = 0; i < notebook.NPages; i++)
-			closeDoc (null, null);
-		if(settings != null)
-			settings.save ();
-		Application.Quit ();
-		return;
-	}
 	protected void newTab(string label, string contents = null)
 	{
 		ScrolledWindow w = new ScrolledWindow ();
@@ -79,7 +70,12 @@ public partial class main: Gtk.Window
 		notebook.SetTabReorderable (notebook.GetNthPage (notebook.NPages - 1), true);
 		notebook.SetTabDetachable (notebook.GetNthPage (notebook.NPages - 1), true);
 		l.CloseClicked += delegate(object obj, EventArgs eventArgs) {
-			closeTab (notebook.PageNum(t));
+			//closeTab (notebook.PageNum(w));
+			for(int i=notebook.Page;i>notebook.PageNum(w);i--)
+				notebook.PrevPage();
+			for(int i=notebook.Page;i<notebook.PageNum(w);i++)
+				notebook.NextPage();
+			closeDoc(null,null);
 		};
 		notebook.ShowAll ();
 		for (int i = notebook.Page; i < notebook.NPages; i++)
@@ -89,14 +85,16 @@ public partial class main: Gtk.Window
 	protected void closeTab(int num)
 	{
 		notebook.RemovePage (num);
+		notebook.PrevPage ();
+		notebook.ShowAll ();
 		return;
 	}
-	protected void newDoc (object sender, EventArgs e)
+	protected void newDoc (object o, EventArgs e)
 	{
 		newTab ("new document");
 		return;
 	}
-	protected void openDoc (object sender, EventArgs e)
+	protected void openDoc (object o, EventArgs e)
 	{
 		FileChooserDialog d = new FileChooserDialog (
 			"OPEN STUFF", this, FileChooserAction.SelectFolder,
@@ -117,7 +115,7 @@ public partial class main: Gtk.Window
 		d.Destroy ();
 		return;
 	}
-	protected void saveDoc (object sender, EventArgs e)
+	protected void saveDoc (object o, EventArgs e)
 	{
 		FileChooserDialog d = new FileChooserDialog (
 			                      "SAVE MEE!", this, FileChooserAction.Save,
@@ -134,11 +132,11 @@ public partial class main: Gtk.Window
 		d.Destroy ();
 		return;
 	}
-	protected void printDoc (object sender, EventArgs e)
+	protected void printDoc (object o, EventArgs e)
 	{
 		return;
 	}
-	protected void closeDoc (object sender, EventArgs e)
+	protected void closeDoc (object o, EventArgs e)
 	{
 		if (notebook.NPages < 1)
 			return;
@@ -157,7 +155,7 @@ public partial class main: Gtk.Window
 		notebook.ShowAll ();
 		return;
 	}
-	protected void changeFont (object sender, EventArgs e)
+	protected void changeFont (object o, EventArgs e)
 	{
 		FontSelectionDialog d = new FontSelectionDialog ("FONT!");
 		d.SetFontName (settings.font);
@@ -170,9 +168,12 @@ public partial class main: Gtk.Window
 		settings.save ();
 		return;
 	}
-	protected void aboutDialog(object sender, EventArgs e)
+	protected void aboutDialog(object o, EventArgs e)
 	{
 		AboutDialog d = new AboutDialog ();
+		d.WrapLicense = true;
+		d.Website = "http://github.com/pvtmert/utxl";
+		d.WebsiteLabel = "UTXL @GitHub";
 		d.Authors = new string [] {
 			"mert akengin",
 			"omar albeik",
@@ -189,16 +190,6 @@ public partial class main: Gtk.Window
 		d.Destroy ();
 		return;
 	}
-
-	protected void winResize (object o, SizeRequestedArgs args)
-	{
-		int x, y;
-		this.GetSize (out x, out y);
-		settings.width = x;
-		settings.height = y;
-		return;
-	}
-
 	private void populateTree(TreeStore t, string root, TreeIter parent) 
 	{
 		try {
@@ -252,13 +243,78 @@ public partial class main: Gtk.Window
 		}));
 		return false;
 	}
-
 	protected void treeDel (object o, PopupMenuArgs args)
 	{
 		TreeIter i;
 		TreeSelection s = tree.Selection;
 		s.GetSelected (out i);
 		((TreeStore)tree.Model).Remove (ref i);
+		return;
+	}
+
+	protected void QUIT(object o, EventArgs a)
+	{
+		for (int i = 0; i < notebook.NPages; i++) {
+			notebook.NextPage ();
+			while (notebook.Page > 0)
+				notebook.PrevPage ();
+			closeDoc (null, null);
+			notebook.Show ();
+		}
+		//if (notebook.NPages > 0) throw new InvalidOperationException();
+		if(settings != null)
+			settings.save ();
+		Destroy ();
+		Application.Quit ();
+		return;
+	}
+	protected void winResize (object o, SizeRequestedArgs a)
+	{
+		int x, y;
+		this.GetSize (out x, out y);
+		settings.width = x;
+		settings.height = y;
+		return;
+	}
+	protected void OnDeleteEvent(object o, DeleteEventArgs a)
+	{
+		QUIT (null,null);
+		return;
+	}
+	protected void OnShown(object o, EventArgs a)
+	{
+		return;
+	}
+	protected void OnFocused(object o, EventArgs a)
+	{
+		return;
+	}
+	protected void OnHidden(object o, EventArgs a)
+	{
+		return;
+	}
+	protected void OnStateChanged(object o, EventArgs a)
+	{
+		return;
+	}
+	protected void OnDestroyEvent(object o, DestroyEventArgs a)
+	{
+		return;
+	}
+	protected void OnFocusOut (object o, FocusOutEventArgs a)
+	{
+		return;
+	}
+	protected void OnFocusIn (object o, FocusInEventArgs a)
+	{
+		return;
+	}
+	protected void OnWindowStateChanged (object o, WindowStateEventArgs a)
+	{
+		return;
+	}
+	protected void OnFocusActivated(object o, EventArgs a)
+	{
 		return;
 	}
 }

@@ -50,7 +50,7 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-quit</property>
-        <signal name="Activated" handler="OnDeleteEvent" />
+        <signal name="Activated" handler="QUIT" />
       </action>
       <action id="printAction">
         <property name="Type">Action</property>
@@ -126,7 +126,7 @@
         <property name="Label" translatable="yes">quit</property>
         <property name="ShortLabel" translatable="yes">quit</property>
         <property name="StockId">gtk-quit</property>
-        <signal name="Activated" handler="OnDeleteEvent" />
+        <signal name="Activated" handler="QUIT" />
       </action>
       <action id="undoAction1">
         <property name="Type">Action</property>
@@ -221,6 +221,15 @@
     <property name="Role">text editor</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <signal name="SizeRequested" handler="winResize" />
+    <signal name="DestroyEvent" handler="OnDestroyEvent" />
+    <signal name="Shown" handler="OnShown" />
+    <signal name="FocusInEvent" handler="OnFocusIn" />
+    <signal name="StateChanged" handler="OnStateChanged" />
+    <signal name="Hidden" handler="OnHidden" />
+    <signal name="FocusOutEvent" handler="OnFocusOut" />
+    <signal name="Focused" handler="OnFocused" />
+    <signal name="WindowStateEvent" handler="OnWindowStateChanged" />
+    <signal name="FocusActivated" handler="OnFocusActivated" />
     <child>
       <widget class="Gtk.VPaned" id="vpaned1">
         <property name="MemberName" />
