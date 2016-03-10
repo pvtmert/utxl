@@ -241,6 +241,8 @@ public partial class main
 		this.tree = new global::Gtk.TreeView ();
 		this.tree.CanFocus = true;
 		this.tree.Name = "tree";
+		this.tree.Reorderable = true;
+		this.tree.SearchColumn = 0;
 		this.GtkScrolledWindow.Add (this.tree);
 		this.hpaned1.Add (this.GtkScrolledWindow);
 		global::Gtk.Paned.PanedChild w5 = ((global::Gtk.Paned.PanedChild)(this.hpaned1 [this.GtkScrolledWindow]));

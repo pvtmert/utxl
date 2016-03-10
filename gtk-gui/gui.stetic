@@ -301,6 +301,8 @@
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
+                        <property name="Reorderable">True</property>
+                        <property name="SearchColumn">0</property>
                         <signal name="RowActivated" handler="treeOpen" />
                       </widget>
                     </child>

@@ -63,12 +63,15 @@ public partial class main: Gtk.Window
 		notebook.EnablePopup = true;
 		//notebook.HomogeneousTabs = true;
 		newTab ("hello world", "welcome to utxl!\n");
-		tree.AppendColumn ("files", new CellRendererText (), "text", 0);
+		tree.EnableTreeLines = true;
+		tree.HeadersVisible = false;
+		tree.AppendColumn ("files & dirs", new CellRendererText (), "text", 0);
+		tree.ModifyFont (Pango.FontDescription.FromString ("sans 12"));
 		TreeStore t = new TreeStore (typeof(string),typeof(string));
 		tree.Model = t;
 		try {
-			System.Threading.Thread th = new System.Threading.Thread (threadAdapter);
-			th.Start (System.IO.Directory.GetCurrentDirectory ());
+			new System.Threading.Thread (threadAdapter)
+				.Start (System.IO.Directory.GetCurrentDirectory ());
 		} catch(Exception e) {
 			Console.WriteLine (e.Message);
 		}
@@ -127,8 +130,9 @@ public partial class main: Gtk.Window
 				System.IO.File.ReadAllText (d.Filename));
 		//((TextView)notebook.Children [notebook.Page]).Buffer.Text = 
 		try {
-			System.Threading.Thread th = new System.Threading.Thread (threadAdapter);
-			th.Start ( System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath (d.Filename)));
+			new System.Threading.Thread (threadAdapter)
+				.Start ( System.IO.Path.GetDirectoryName(
+					System.IO.Path.GetFullPath (d.Filename)));
 		} catch(Exception x) {
 			Console.WriteLine (x.Message);
 		}
@@ -220,7 +224,6 @@ public partial class main: Gtk.Window
 	{
 		try {
 			TreeIter p;
-			System.IO.Path.GetFullPath(root);
 			if (parent.Equals(TreeIter.Zero))
 				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root), System.IO.Path.GetFullPath(root), } );
 			else
