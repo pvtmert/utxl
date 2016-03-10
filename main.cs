@@ -105,7 +105,7 @@ public partial class main: Gtk.Window
 		NotebookTabLabel l = new NotebookTabLabel(label);
 		w.Add (t);
 		notebook.AppendPage (w,l);
-		notebook.SetTabReorderable (notebook.GetNthPage(notebook.NPages-1), true);
+		notebook.SetTabReorderable (notebook.GetNthPage (notebook.NPages - 1), true);
 		notebook.SetTabDetachable (notebook.GetNthPage (notebook.NPages - 1), true);
 		l.CloseClicked += delegate(object obj, EventArgs eventArgs) {
 			closeTab (notebook.PageNum(t));
@@ -232,9 +232,10 @@ public partial class main: Gtk.Window
 		try {
 			TreeIter p;
 			if (parent.Equals(TreeIter.Zero))
-				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root), System.IO.Path.GetFullPath(root), } );
+				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root)+"/", System.IO.Path.GetFullPath(root), } );
 			else
-				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root), System.IO.Path.GetFullPath(root), } );
+				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root)+"/", System.IO.Path.GetFullPath(root), } );
+			tree.ExpandToPath(t.GetPath(p));
 			foreach (string d in System.IO.Directory.GetDirectories(root)) {
 				if (parent.Equals(TreeIter.Zero))
 					this.populateTree (t,d,p);
@@ -255,8 +256,11 @@ public partial class main: Gtk.Window
 		TreeIter i;
 		((TreeStore)tree.Model).GetIter (out i, args.Path);
 		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
+		if (tree.GetRowExpanded (args.Path))
 			foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
 				populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
+		else // remove row from tree
+			((TreeStore)tree.Model).Remove (ref i);
 		else
 			newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
 				System.IO.File.ReadAllText ((string)(
@@ -275,5 +279,14 @@ public partial class main: Gtk.Window
 			return false;
 		}));
 		return false;
+	}
+
+	protected void treeDel (object o, PopupMenuArgs args)
+	{
+		TreeIter i;
+		TreeSelection s = tree.Selection;
+		s.GetSelected (out i);
+		((TreeStore)tree.Model).Remove (ref i);
+		return;
 	}
 }

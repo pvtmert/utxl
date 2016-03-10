@@ -277,5 +277,6 @@ public partial class main
 		this.closeAction.Activated += new global::System.EventHandler (this.closeDoc);
 		this.fontsAction.Activated += new global::System.EventHandler (this.changeFont);
 		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.treeOpen);
+		this.tree.PopupMenu += new global::Gtk.PopupMenuHandler (this.treeDel);
 	}
 }

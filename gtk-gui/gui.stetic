@@ -304,6 +304,7 @@
                         <property name="Reorderable">True</property>
                         <property name="SearchColumn">0</property>
                         <signal name="RowActivated" handler="treeOpen" />
+                        <signal name="PopupMenu" handler="treeDel" after="yes" />
                       </widget>
                     </child>
                   </widget>
