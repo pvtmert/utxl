@@ -8,8 +8,8 @@ using System;
 using Gtk;
 
 using FastColoredTextBoxNS;
-
 using Alpinechough.Common.GtkUtilities;
+
 using UTXL;
 
 public partial class main: Gtk.Window
@@ -39,7 +39,7 @@ public partial class main: Gtk.Window
 		tree.EnableTreeLines = true;
 		tree.HeadersVisible = false;
 		tree.AppendColumn ("files & dirs", new CellRendererText (), "text", 0);
-		tree.ModifyFont (Pango.FontDescription.FromString ("sans 12"));
+		tree.ModifyFont (Pango.FontDescription.FromString (settings.font));
 		TreeStore t = new TreeStore (typeof(string),typeof(string));
 		tree.Model = t;
 		try {
@@ -166,6 +166,7 @@ public partial class main: Gtk.Window
 		settings.font = d.FontName;
 		d.Destroy ();
 		settings.save ();
+		tree.ModifyFont (Pango.FontDescription.FromString (settings.font));
 		return;
 	}
 	protected void aboutDialog(object o, EventArgs e)
@@ -217,13 +218,17 @@ public partial class main: Gtk.Window
 	protected void treeOpen (object o, RowActivatedArgs args)
 	{
 		TreeIter i;
+		//tree.ExpandToPath (args.Path);
+		if (tree.GetRowExpanded (args.Path))
+			tree.CollapseRow (args.Path);
+		else
+			tree.ExpandRow (args.Path, true);
 		((TreeStore)tree.Model).GetIter (out i, args.Path);
 		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
-		if (tree.GetRowExpanded (args.Path))
-			foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
-				populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
-		else // remove row from tree
-			((TreeStore)tree.Model).Remove (ref i);
+			//if (tree.GetRowExpanded (args.Path))
+				foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
+					populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
+			//else ((TreeStore)tree.Model).Remove (ref i);
 		else
 			newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
 				System.IO.File.ReadAllText ((string)(
@@ -243,7 +248,7 @@ public partial class main: Gtk.Window
 		}));
 		return false;
 	}
-	protected void treeDel (object o, PopupMenuArgs args)
+	protected void treeDel (object o, EventArgs a)
 	{
 		TreeIter i;
 		TreeSelection s = tree.Selection;
@@ -258,7 +263,7 @@ public partial class main: Gtk.Window
 			notebook.NextPage ();
 			while (notebook.Page > 0)
 				notebook.PrevPage ();
-			closeDoc (null, null);
+			treeDel(null, null);
 			notebook.Show ();
 		}
 		//if (notebook.NPages > 0) throw new InvalidOperationException();

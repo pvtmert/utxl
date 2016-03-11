@@ -283,7 +283,7 @@ public partial class main
 		this.quitAction1.Activated += new global::System.EventHandler (this.QUIT);
 		this.dialogInfoAction.Activated += new global::System.EventHandler (this.aboutDialog);
 		this.preferencesAction1.Activated += new global::System.EventHandler (this.changeFont);
-		this.closeAction.Activated += new global::System.EventHandler (this.closeDoc);
+		this.closeAction.Activated += new global::System.EventHandler (this.treeDel);
 		this.fontsAction.Activated += new global::System.EventHandler (this.changeFont);
 		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.treeOpen);
 		this.tree.PopupMenu += new global::Gtk.PopupMenuHandler (this.treeDel);

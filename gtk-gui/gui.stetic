@@ -192,7 +192,7 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-close</property>
-        <signal name="Activated" handler="closeDoc" />
+        <signal name="Activated" handler="treeDel" />
       </action>
       <action id="fontsAction">
         <property name="Type">Action</property>
