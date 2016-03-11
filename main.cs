@@ -32,6 +32,8 @@ public partial class main: Gtk.Window
 		Build ();
 		this.Resize (settings.width, settings.height);
 		this.Show ();
+		hpaned1.Position = settings.treew;
+		hpaned1.Show ();
 		notebook.Scrollable = true;
 		notebook.EnablePopup = true;
 		//notebook.HomogeneousTabs = true;
@@ -53,6 +55,10 @@ public partial class main: Gtk.Window
 	protected bool test()
 	{
 		return false;
+	}
+	protected string text(Notebook n, int page)
+	{
+		return null;
 	}
 	protected void newTab(string label, string contents = null)
 	{
@@ -267,6 +273,7 @@ public partial class main: Gtk.Window
 			notebook.Show ();
 		}
 		//if (notebook.NPages > 0) throw new InvalidOperationException();
+		settings.treew = hpaned1.Position;
 		if(settings != null)
 			settings.save ();
 		Destroy ();

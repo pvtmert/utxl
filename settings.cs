@@ -28,6 +28,7 @@ namespace UTXL
 			data ["ui"].AddKey ("wrap");
 			data ["ui"].AddKey ("icon_size");
 			data ["ui"].AddKey ("icon_text");
+			data ["ui"].AddKey ("treew");
 			return;
 		}
 		public void defaults()
@@ -43,6 +44,7 @@ namespace UTXL
 			data ["ui"] ["wrap"] = "3";
 			data ["ui"] ["icon_size"] = "0"; //5
 			data ["ui"] ["icon_text"] = "0"; //7
+			data ["ui"] ["treew"] = "150";
 			return;
 		}
 		public void load()
@@ -94,6 +96,10 @@ namespace UTXL
 		public int icon_text {
 			get { return int.Parse(data ["ui"] ["icon_text"]); }
 			set { data ["ui"] ["icon_text"] = value.ToString(); }
+		}
+		public int treew {
+			get { return int.Parse (data ["ui"] ["treew"]); }
+			set { data ["ui"] ["treew"] = value.ToString (); }
 		}
 	}
 }
