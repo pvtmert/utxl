@@ -234,7 +234,9 @@
       <widget class="Gtk.VPaned" id="vpaned1">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
+        <property name="Events">ButtonPressMask, ButtonReleaseMask</property>
         <property name="Position">24</property>
+        <signal name="ToggleHandleFocus" handler="OnToggleHandleFocus" />
         <child>
           <widget class="Gtk.MenuBar" id="menu">
             <property name="MemberName" />
@@ -273,7 +275,9 @@
           <widget class="Gtk.VPaned" id="vpaned2">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">30</property>
+            <property name="Events">ButtonPressMask, ButtonReleaseMask</property>
+            <property name="Position">32</property>
+            <signal name="ToggleHandleFocus" handler="OnToggleHandleFocus" />
             <child>
               <widget class="Gtk.Toolbar" id="tools">
                 <property name="MemberName" />

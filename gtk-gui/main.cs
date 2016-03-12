@@ -205,6 +205,7 @@ public partial class main
 		// Container child main.Gtk.Container+ContainerChild
 		this.vpaned1 = new global::Gtk.VPaned ();
 		this.vpaned1.CanFocus = true;
+		this.vpaned1.Events = ((global::Gdk.EventMask)(768));
 		this.vpaned1.Name = "vpaned1";
 		this.vpaned1.Position = 24;
 		// Container child vpaned1.Gtk.Paned+PanedChild
@@ -217,8 +218,9 @@ public partial class main
 		// Container child vpaned1.Gtk.Paned+PanedChild
 		this.vpaned2 = new global::Gtk.VPaned ();
 		this.vpaned2.CanFocus = true;
+		this.vpaned2.Events = ((global::Gdk.EventMask)(768));
 		this.vpaned2.Name = "vpaned2";
-		this.vpaned2.Position = 30;
+		this.vpaned2.Position = 32;
 		// Container child vpaned2.Gtk.Paned+PanedChild
 		this.UIManager.AddUiFromString ("<ui><toolbar name='tools'><toolitem name='newAction' action='newAction'/><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction1' action='saveAsAction1'/><toolitem name='closeAction' action='closeAction'/><toolitem name='printAction' action='printAction'/><toolitem name='undoAction' action='undoAction'/><toolitem name='redoAction' action='redoAction'/><toolitem name='preferencesAction' action='preferencesAction'/><toolitem name='quitAction' action='quitAction'/></toolbar></ui>");
 		this.tools = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/tools")));
@@ -285,6 +287,8 @@ public partial class main
 		this.preferencesAction1.Activated += new global::System.EventHandler (this.changeFont);
 		this.closeAction.Activated += new global::System.EventHandler (this.treeDel);
 		this.fontsAction.Activated += new global::System.EventHandler (this.changeFont);
+		this.vpaned1.ToggleHandleFocus += new global::Gtk.ToggleHandleFocusHandler (this.OnToggleHandleFocus);
+		this.vpaned2.ToggleHandleFocus += new global::Gtk.ToggleHandleFocusHandler (this.OnToggleHandleFocus);
 		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.treeOpen);
 		this.tree.PopupMenu += new global::Gtk.PopupMenuHandler (this.treeDel);
 	}

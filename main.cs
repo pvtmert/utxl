@@ -22,6 +22,11 @@ public partial class main: Gtk.Window
 		tree.Show ();
 		return;
 	}
+	private void defs(object o, EventArgs a)
+	{
+		((VPaned)o).Position = -1;
+		return;
+	}
 	public main () : base (Gtk.WindowType.Toplevel)
 	{
 		settings = new settings ();
@@ -33,6 +38,7 @@ public partial class main: Gtk.Window
 		this.Resize (settings.width, settings.height);
 		this.Show ();
 		hpaned1.Position = settings.treew;
+		hpaned1.BorderWidth = 3;
 		hpaned1.Show ();
 		notebook.Scrollable = true;
 		notebook.EnablePopup = true;
@@ -72,6 +78,9 @@ public partial class main: Gtk.Window
 		//Label l = new Label (label);
 		NotebookTabLabel l = new NotebookTabLabel(label);
 		w.Add (t);
+		t.Buffer.Changed += delegate(object sender, EventArgs e) {
+			
+		};
 		notebook.AppendPageMenu (w,l,new Label(label));
 		notebook.SetTabReorderable (notebook.GetNthPage (notebook.NPages - 1), true);
 		notebook.SetTabDetachable (notebook.GetNthPage (notebook.NPages - 1), true);
@@ -329,4 +338,21 @@ public partial class main: Gtk.Window
 	{
 		return;
 	}
+	protected void OnToggleHandleFocus (object o, ToggleHandleFocusArgs args)
+	{
+		if (o == vpaned1 || o == vpaned2)
+			((VPaned)o).Position = 32;
+		if (o == hpaned1)
+			((HPaned)o).Position = 160;
+		return;
+	}
+	protected void OnBtnPressEvent (object o, ButtonPressEventArgs args)
+	{
+		return;
+	}
+	protected void OnBtnReleaseEvent (object o, ButtonReleaseEventArgs args)
+	{
+		return;
+	}
 }
+
