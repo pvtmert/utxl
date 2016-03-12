@@ -43,7 +43,10 @@ public partial class main: Gtk.Window
 		notebook.Scrollable = true;
 		notebook.EnablePopup = true;
 		//notebook.HomogeneousTabs = true;
-		newTab ("hello world", "welcome to utxl!\n");
+		newTab ("hello world", "welcome to utxl!\n",System.IO.Directory.GetCurrentDirectory()
+			+System.IO.Path.DirectorySeparatorChar
+			+"utxl.txt"
+		);
 		tree.EnableTreeLines = true;
 		tree.HeadersVisible = false;
 		tree.AppendColumn ("files & dirs", new CellRendererText (), "text", 0);
@@ -66,7 +69,7 @@ public partial class main: Gtk.Window
 	{
 		return null;
 	}
-	protected void newTab(string label, string contents = null)
+	protected void newTab(string label, string contents = null, string path = "/")
 	{
 		ScrolledWindow w = new ScrolledWindow ();
 		TextView t = new TextView ();
@@ -76,7 +79,7 @@ public partial class main: Gtk.Window
 		t.ModifyFont (Pango.FontDescription.FromString (settings.font));
 		t.Buffer.Text = contents;
 		//Label l = new Label (label);
-		NotebookTabLabel l = new NotebookTabLabel(label);
+		NotebookTabLabel l = new NotebookTabLabel(label,path);
 		w.Add (t);
 		t.Buffer.Changed += delegate(object sender, EventArgs e) {
 			
@@ -106,7 +109,10 @@ public partial class main: Gtk.Window
 	}
 	protected void newDoc (object o, EventArgs e)
 	{
-		newTab ("new document");
+		newTab ("new document",null,System.IO.Directory.GetCurrentDirectory()
+			+System.IO.Path.DirectorySeparatorChar
+			+"new.txt"
+		);
 		return;
 	}
 	protected void openDoc (object o, EventArgs e)
@@ -137,12 +143,15 @@ public partial class main: Gtk.Window
 			                      "SAVE!", ResponseType.Accept,
 			                      "NOPE", ResponseType.Cancel
 		                      );
+		d.SetFilename(((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).Path);
 		if ((ResponseType)d.Run () == ResponseType.Accept) {
 			System.IO.File.WriteAllText (d.Filename,
 				((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text);
 			//((TextView)notebook.Children [notebook.Page]).Buffer.Text
-			notebook.SetTabLabelText (notebook.GetNthPage (notebook.Page),
-				System.IO.Path.GetFileName (d.Filename));
+			notebook.SetTabLabel (notebook.GetNthPage (notebook.Page),
+				new NotebookTabLabel (System.IO.Path.GetFileName (d.Filename), d.Filename));
+			notebook.SetMenuLabel(notebook.GetNthPage (notebook.Page),
+				new NotebookTabLabel (System.IO.Path.GetFileName (d.Filename), d.Filename));
 		}
 		d.Destroy ();
 		return;
@@ -247,7 +256,8 @@ public partial class main: Gtk.Window
 		else
 			newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
 				System.IO.File.ReadAllText ((string)(
-					(TreeStore)tree.Model).GetValue (i, 1)));
+					(TreeStore)tree.Model).GetValue (i, 1)),
+				(string)((TreeStore)tree.Model).GetValue (i, 1));
 		return;
 	}
 

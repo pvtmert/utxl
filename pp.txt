@@ -1,8 +1,0 @@
-a simple cross-platform text editor that will replace good old notepad in current systems with little to no dependency to complicated external frameworks (other than toolkit itself). this editor will allow users to create edit copy and save plain text files including source codes of various programming languages, daily text notes, memos etc. an utf8 support should be added to be compatible with modern devices systems and ascii files also be readable and save-able due to backwards compatibility. optional features such as wrapping text, undo, redo functions, changing font, size and color of text to allow customizability and readability, saving and keeping preferences is should be available to user as non-volatile memory with or without encryption, maybe within application settings file (.ini). a build system support can be included to easily compile debug and deploy applications in a cross-platform manner. last but not least, editing files simutaneously should be added, basically as tabs to easily switch between files to save resources by not creating new window for each file to be opened.
-
-group members:
-mert akengin / 1314750
-omar albeik / 1501664
-zafer huzmeli / 1316002
-
-selected project: text-editor

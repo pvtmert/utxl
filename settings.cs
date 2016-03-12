@@ -35,7 +35,7 @@ namespace UTXL
 		{
 			if (data == null)
 				return;
-			data ["ui"] ["font"] = "monospace 12";
+			data ["ui"] ["font"] = "Courier 11";
 			data ["ui"] ["color"] = "black";
 			data ["ui"] ["background"] = "white";
 			data ["ui"] ["W"] = "800";

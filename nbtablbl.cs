@@ -26,12 +26,11 @@ namespace Alpinechough.Common.GtkUtilities
 	public class NotebookTabLabel : EventBox
 	{
 		public string Text;
-		public void Get(ref string s) {
-			s = Text;
-		}
-		public NotebookTabLabel (string title)
+		public string Path;
+		public NotebookTabLabel (string title, string path = "/")
 		{
 			Text = title;
+			Path = path;
 			
 			Button button = new Button ();
 			button.Image = new Gtk.Image (Stock.Close, IconSize.SmallToolbar);
