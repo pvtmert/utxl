@@ -150,8 +150,8 @@ public partial class main: Gtk.Window
 			//((TextView)notebook.Children [notebook.Page]).Buffer.Text
 			notebook.SetTabLabel (notebook.GetNthPage (notebook.Page),
 				new NotebookTabLabel (System.IO.Path.GetFileName (d.Filename), d.Filename));
-			notebook.SetMenuLabel(notebook.GetNthPage (notebook.Page),
-				new NotebookTabLabel (System.IO.Path.GetFileName (d.Filename), d.Filename));
+			notebook.SetMenuLabel (notebook.GetNthPage (notebook.Page),
+				new Label (System.IO.Path.GetFileName (d.Filename)));
 		}
 		d.Destroy ();
 		return;
