@@ -9,7 +9,7 @@ Actually this is our term project in C-sharp class in Bahcesehir University. Use
 Currently it still needs to be updated, such as undo-redo operations are missing. But we use INI file as settings storage and all are implemented, of course functioning again but has no UI.
 
 Let's look at core functions:
-- Open button opens directory, not files... When you open directory you double click those files from the left side tree. Thus will open such file in new tab within main editor area. And won't switch to tab if the file is opened already _it will reopen in new tab_
+- Open button opens directory, not files... When you open directory you double click those files from the left side tree. Thus will open such file in new tab within main editor area. And if it was already opened, it will switch to that tab.
 - If you want to delete unnecessary items from tree, you need to select it and press close button in the toolbar.
 - There is no save-as function (as of March 12th, 2016) just the save function. Even if file opened, save function won't overwrite file, still asks for your input to file to save. But if you type same filename as original, _it will overwrite!_
 - Preferences button currently only changes font, font change also applies all tabs and the file-tree...

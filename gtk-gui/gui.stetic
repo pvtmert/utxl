@@ -245,7 +245,6 @@
                 <node type="Menuitem" action="newAction1" />
                 <node type="Menuitem" action="openAction1" />
                 <node type="Menuitem" action="saveAction1" />
-                <node type="Menuitem" action="saveAsAction" />
                 <node type="Menuitem" action="deleteAction" />
                 <node type="Menuitem" action="printAction1" />
                 <node type="Menuitem" action="dndAction" />
@@ -288,7 +287,6 @@
                   <node type="Toolitem" action="newAction" />
                   <node type="Toolitem" action="openAction" />
                   <node type="Toolitem" action="saveAction" />
-                  <node type="Toolitem" action="saveAsAction1" />
                   <node type="Toolitem" action="closeAction" />
                   <node type="Toolitem" action="printAction" />
                   <node type="Toolitem" action="undoAction" />

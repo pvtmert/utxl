@@ -145,6 +145,16 @@ public partial class main: Gtk.Window
 		                      );
 		d.SetFilename(((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).Path);
 		if ((ResponseType)d.Run () == ResponseType.Accept) {
+			if (System.IO.File.Exists (d.Filename)) {
+				MessageDialog d2 = new MessageDialog (this, DialogFlags.Modal, 
+					                   MessageType.Question, ButtonsType.YesNo, "File Exists! Overwrite?");
+				if ((ResponseType)d2.Run () != ResponseType.Yes) {
+					d2.Destroy ();
+					d.Destroy ();
+					return;
+				}
+				d2.Destroy ();
+			}
 			System.IO.File.WriteAllText (d.Filename,
 				((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text);
 			//((TextView)notebook.Children [notebook.Page]).Buffer.Text
