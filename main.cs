@@ -152,6 +152,15 @@ public partial class main: Gtk.Window
 				new NotebookTabLabel (System.IO.Path.GetFileName (d.Filename), d.Filename));
 			notebook.SetMenuLabel (notebook.GetNthPage (notebook.Page),
 				new Label (System.IO.Path.GetFileName (d.Filename)));
+			int p = notebook.Page;
+			((NotebookTabLabel)notebook.GetTabLabel(notebook.GetNthPage(notebook.Page))).CloseClicked += delegate(object obj, EventArgs eventArgs) {
+				//closeTab (notebook.PageNum(w));
+				for(int i=notebook.Page;i>p;i--)
+					notebook.PrevPage();
+				for(int i=notebook.Page;i<p;i++)
+					notebook.NextPage();
+				closeDoc(null,null);
+			};
 		}
 		d.Destroy ();
 		return;
@@ -248,6 +257,15 @@ public partial class main: Gtk.Window
 		else
 			tree.ExpandRow (args.Path, true);
 		((TreeStore)tree.Model).GetIter (out i, args.Path);
+		for(int j=0;j<notebook.NPages;j++)
+			if(((NotebookTabLabel)notebook.GetTabLabel(notebook.GetNthPage(j))).Path == (string)((TreeStore)tree.Model).GetValue (i, 1))
+			{
+				for(int k=notebook.Page;k>j;k--)
+					notebook.PrevPage();
+				for(int k=notebook.Page;k<j;k++)
+					notebook.NextPage();
+				return;
+			}
 		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
 			//if (tree.GetRowExpanded (args.Path))
 				foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
@@ -284,11 +302,13 @@ public partial class main: Gtk.Window
 
 	protected void QUIT(object o, EventArgs a)
 	{
+		while (notebook.NPages > 0)
+			closeDoc (null, null);
 		for (int i = 0; i < notebook.NPages; i++) {
 			notebook.NextPage ();
 			while (notebook.Page > 0)
 				notebook.PrevPage ();
-			treeDel(null, null);
+			closeDoc(null, null);
 			notebook.Show ();
 		}
 		//if (notebook.NPages > 0) throw new InvalidOperationException();

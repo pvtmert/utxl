@@ -282,6 +282,7 @@
               <widget class="Gtk.Toolbar" id="tools">
                 <property name="MemberName" />
                 <property name="ShowArrow">False</property>
+                <property name="ButtonStyle">BothHoriz</property>
                 <property name="IconSize">SmallToolbar</property>
                 <node name="tools" type="Toolbar">
                   <node type="Toolitem" action="newAction" />

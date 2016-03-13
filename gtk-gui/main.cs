@@ -226,6 +226,7 @@ public partial class main
 		this.tools = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/tools")));
 		this.tools.Name = "tools";
 		this.tools.ShowArrow = false;
+		this.tools.ToolbarStyle = ((global::Gtk.ToolbarStyle)(3));
 		this.tools.IconSize = ((global::Gtk.IconSize)(2));
 		this.vpaned2.Add (this.tools);
 		global::Gtk.Paned.PanedChild w3 = ((global::Gtk.Paned.PanedChild)(this.vpaned2 [this.tools]));
