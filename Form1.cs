@@ -212,6 +212,7 @@ namespace UTXL
                 if (file.Extension.ToString() == ".txt")
                 {
                     TreeNode node = new TreeNode(file.Name);
+                    
                     node.ToolTipText = file.FullName;
                     directoryNode.Nodes.Add(node);
                 }
