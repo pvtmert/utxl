@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Drawing;
 using System.Media;
+using System.Drawing.Printing;
 
 namespace UTXL
 {
@@ -54,7 +55,7 @@ namespace UTXL
             saveToolStripMenuItem.Enabled = true;
             saveAsToolStripMenuItem.Enabled = true;
         }
-        
+
         // this method will be called when open file menu item is clicked
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -82,7 +83,7 @@ namespace UTXL
                 sr.Dispose();
             }
         }
-        
+
         // this method will be called when open directory menu item is clicked
         private void openDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -212,7 +213,7 @@ namespace UTXL
                 if (file.Extension.ToString() == ".txt")
                 {
                     TreeNode node = new TreeNode(file.Name);
-                    
+
                     node.ToolTipText = file.FullName;
                     directoryNode.Nodes.Add(node);
                 }
@@ -240,7 +241,7 @@ namespace UTXL
             saveToolStripMenuItem.Enabled = enable;
             saveAsToolStripMenuItem.Enabled = enable;
         }
-        
+
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -324,12 +325,139 @@ namespace UTXL
 
         }
 
-    }
-}
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            richTextBox.Text = "";
+            saveToolStripMenuItem.Enabled = true;
+            saveAsToolStripMenuItem.Enabled = true;
+        }
 
-// a workarround to remove the white border of toolStrip in dark mode
-public class ToolStripOverride: ToolStripProfessionalRenderer
-{
-    public ToolStripOverride() { }
-    protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e){ }
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                BinaryWriter bw = new BinaryWriter(File.Create(path));
+                bw.Write(richTextBox.Text);
+                bw.Dispose();
+            }
+
+
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            richTextBox.Cut();
+        }
+
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            if (richTextBox.Font.Size > 2)
+            {
+                Font fnt = new Font(richTextBox.Font.Name, richTextBox.Font.Size + 2);
+                richTextBox.Font = fnt;
+            }
+        }
+
+        private void toolStripButton11_Click(object sender, EventArgs e)
+        {
+            if (richTextBox.Font.Size > 2)
+            {
+                Font fnt = new Font(richTextBox.Font.Name, richTextBox.Font.Size - 2);
+                richTextBox.Font = fnt;
+            }
+        }
+
+        private void toolStripButton12_Click(object sender, EventArgs e)
+        {
+            initRichTextBox();
+        }
+
+        private void toolStripButton13_Click(object sender, EventArgs e)
+        {
+
+            richTextBox.SelectedText = richTextBox.SelectedText.ToUpper();
+
+        }
+
+        private void toolStripButton14_Click(object sender, EventArgs e)
+        {
+            richTextBox.SelectedText = richTextBox.SelectedText.ToLower();
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            richTextBox.SelectedText = Clipboard.GetText();
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            if (richTextBox.SelectedText != null && richTextBox.SelectedText.Length != 0)
+            {
+                Clipboard.SetText(richTextBox.SelectedText);
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                listDirectory(treeView, fbd.SelectedPath);
+            }
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            PrintDialog printDialog = new PrintDialog();
+            PrintDocument documentToPrint = new PrintDocument();
+            printDialog.Document = documentToPrint;
+            if (printDialog.ShowDialog() == DialogResult.OK)
+            {
+                StringReader reader = new StringReader(richTextBox.Text);
+                documentToPrint.PrintPage += new PrintPageEventHandler(DocumentToPrint_PrintPage);
+                documentToPrint.Print();
+            }
+        }
+
+        private void DocumentToPrint_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            StringReader reader = new StringReader(richTextBox.Text);
+            float LinesPerPage = 0;
+            float YPosition = 0;
+            int Count = 0;
+            float LeftMargin = e.MarginBounds.Left;
+            float TopMargin = e.MarginBounds.Top;
+            string Line = null;
+            Font PrintFont = this.richTextBox.Font;
+            SolidBrush PrintBrush = new SolidBrush(Color.Black);
+
+            LinesPerPage = e.MarginBounds.Height / PrintFont.GetHeight(e.Graphics);
+
+            while (Count < LinesPerPage && ((Line = reader.ReadLine()) != null))
+            {
+                YPosition = TopMargin + (Count * PrintFont.GetHeight(e.Graphics));
+                e.Graphics.DrawString(Line, PrintFont, PrintBrush, LeftMargin, YPosition, new StringFormat());
+                Count++;
+            }
+
+            if (Line != null)
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                e.HasMorePages = false;
+            }
+            PrintBrush.Dispose();
+        }
+
+        // a workarround to remove the white border of toolStrip in dark mode
+        public class ToolStripOverride : ToolStripProfessionalRenderer
+        {
+            public ToolStripOverride() { }
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) { }
+        }
+    }
 }
