@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Media;
 using System.Drawing.Printing;
+using System.Drawing.Text;
 
 namespace UTXL
 {
@@ -14,8 +15,9 @@ namespace UTXL
         OpenFileDialog ofd = new OpenFileDialog();
         FolderBrowserDialog fbd = new FolderBrowserDialog();
         SaveFileDialog sfd = new SaveFileDialog();
-
-
+        InstalledFontCollection InsFonts = new InstalledFontCollection();
+        
+        
         string currentPath;
         bool saved = true;
 
@@ -26,7 +28,11 @@ namespace UTXL
             InitializeComponent();
             enableSave(false);
             initRichTextBox();
+        
 
+            
+           
+            
 
             if (splitContainer.SplitterDistance > 0)
             {
@@ -322,6 +328,7 @@ namespace UTXL
             // set font and font size
             Font fnt = new Font(Properties.Settings.Default.font_name, Properties.Settings.Default.font_size);
             richTextBox.Font = fnt;
+            
 
         }
 
@@ -458,10 +465,9 @@ namespace UTXL
         {
             public ToolStripOverride() { }
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) { }
-			
-			}
-			
-			private void toolStripButton8_Click(object sender, EventArgs e)
+        }
+
+        private void toolStripButton8_Click(object sender, EventArgs e)
         {
             richTextBox.Undo();
         }
@@ -494,12 +500,16 @@ namespace UTXL
                 richTextBox.SelectionColor = fd.Color;
             }
         }
-			
-			
-			
-			
-			
-			
-			
+
+        private void richTextBox_TextChanged(object sender, EventArgs e)
+        {
+            
+            Linenum.Text = richTextBox.Lines.Length.ToString();
+            Characters.Text = richTextBox.Text.Length.ToString();
+
+            
+        }
+    
+    
     }
 }
