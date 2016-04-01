@@ -16,6 +16,7 @@ namespace UTXL
         {
             InitializeComponent();
         }
+		// ghujıl
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
