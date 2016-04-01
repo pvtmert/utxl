@@ -458,6 +458,48 @@ namespace UTXL
         {
             public ToolStripOverride() { }
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) { }
+			
+			}
+			
+			private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            richTextBox.Undo();
         }
+
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            richTextBox.Redo();
+        } 
+
+        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.Font = richTextBox.SelectionFont;
+            fd.Color = richTextBox.SelectionColor;
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox.SelectionFont = fd.Font;
+                richTextBox.SelectionColor = fd.Color;
+            }
+        }
+
+        private void toolStripButton15_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.Font = richTextBox.SelectionFont;
+            fd.Color = richTextBox.SelectionColor;
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox.SelectionFont = fd.Font;
+                richTextBox.SelectionColor = fd.Color;
+            }
+        }
+			
+			
+			
+			
+			
+			
+			
     }
 }
