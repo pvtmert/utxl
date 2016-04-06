@@ -2,6 +2,8 @@
 ###### * just a casual name i come up with
 ### c-sharp term project
 
+[![Join the chat at https://gitter.im/pvtmert/utxl](https://badges.gitter.im/pvtmert/utxl.svg)](https://gitter.im/pvtmert/utxl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A casual text editor, with file-tree to allow easy navigation within editor (which is currently standard in most modern editors), supports tabs.
 
 Actually this is our term project in C-sharp class in Bahcesehir University. Uses GTK (GTK#) for UI stuff to make it avaliable for OSX, Linux and Windows (aka cross-platform).
