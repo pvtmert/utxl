@@ -11,6 +11,7 @@ namespace UTXL
 {
     public partial class UTXL : Form
     {
+        
         string allowedFileTypes = "Text Files (.txt)|*.txt|CSS Files (.css)|*.css";
         OpenFileDialog ofd = new OpenFileDialog();
         FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -25,10 +26,11 @@ namespace UTXL
         // this function will run when the form get Initialized
         public UTXL()
         {
+            
             InitializeComponent();
             enableSave(false);
             initRichTextBox();
-        
+            label1.Visible = false;
 
             
            
@@ -244,8 +246,8 @@ namespace UTXL
         /*************************** Helpers ***************************/
         public void enableSave(Boolean enable)
         {
-            saveToolStripMenuItem.Enabled = enable;
-            saveAsToolStripMenuItem.Enabled = enable;
+            saveToolStripMenuItem.Enabled = true;
+            saveAsToolStripMenuItem.Enabled = true;
         }
 
 
@@ -506,8 +508,86 @@ namespace UTXL
             
             Linenum.Text = richTextBox.Lines.Length.ToString();
             Characters.Text = richTextBox.Text.Length.ToString();
-
+            int i = richTextBox.Lines.Length;
+            label1.Text = "Line Number::" + richTextBox.GetLineFromCharIndex(i);
             
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This was done \nZAFER\nMERT\nOMAR \n V1.0.0 "+"LITTLE TEXT EDTOR");
+        }
+
+        private void selectAllToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            richTextBox.Text = "";
+            saveToolStripMenuItem.Enabled = true;
+            saveAsToolStripMenuItem.Enabled = true;
+        }
+
+        private void cutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            // check if file is selected successfully
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                StreamReader sr = new StreamReader(File.OpenRead(ofd.FileName));
+                // save selected file path
+                this.currentPath = ofd.FileName;
+
+                // get parent directory of the selected file
+                string parentDirectory = Path.GetDirectoryName(this.currentPath);
+
+                // add parent directory of the file to the tree view
+                listDirectory(treeView, parentDirectory);
+
+                // read text inside the selected file
+                richTextBox.Text = sr.ReadToEnd();
+
+                // enable save buttons
+                enableSave(true);
+
+                // dispose the stream reader, so we can use it in another place later
+                sr.Dispose();
+            }
+        }
+
+        private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            richTextBox.Cut();
+        }
+
+        private void pasteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            richTextBox.Copy();
+        }
+
+        private void pasteToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            richTextBox.SelectedText = Clipboard.GetText();
+        }
+
+        private void upperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox.SelectedText = richTextBox.SelectedText.ToUpper();
+        }
+
+        private void lowerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox.SelectedText = richTextBox.SelectedText.ToLower();
+
+        }
+
+        private void fontToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.Font = richTextBox.SelectionFont;
+            fd.Color = richTextBox.SelectionColor;
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox.SelectionFont = fd.Font;
+                richTextBox.SelectionColor = fd.Color;
+            }
         }
     
     
