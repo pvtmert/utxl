@@ -589,7 +589,50 @@ namespace UTXL
                 richTextBox.SelectionColor = fd.Color;
             }
         }
-    
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+
+            // check if file is selected successfully
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                StreamReader sr = new StreamReader(File.OpenRead(ofd.FileName));
+                // save selected file path
+                this.currentPath = ofd.FileName;
+
+                // get parent directory of the selected file
+                string parentDirectory = Path.GetDirectoryName(this.currentPath);
+
+                // add parent directory of the file to the tree view
+                listDirectory(treeView, parentDirectory);
+
+                // read text inside the selected file
+                richTextBox.Text = sr.ReadToEnd();
+
+                // enable save buttons
+                enableSave(true);
+
+                // dispose the stream reader, so we can use it in another place later
+                sr.Dispose();
+            }
+        }
+
+        private void selectAllToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            richTextBox.SelectAll();
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeView.SelectedNode.Remove();
+            richTextBox.Text = "";
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            
+        }
     
     }
 }
