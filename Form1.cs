@@ -628,11 +628,12 @@ namespace UTXL
             richTextBox.Text = "";
         }
 
-        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void projectPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            
+            System.Diagnostics.Process.Start("https://github.com/pvtmert/utxl");
         }
+
+       
     
     }
 }

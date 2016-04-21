@@ -62,12 +62,9 @@
             this.increaseFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decreaseFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetFontSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView = new System.Windows.Forms.TreeView();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,11 +128,10 @@
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
-            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(220, 24);
+            this.menuStrip.Size = new System.Drawing.Size(172, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -415,28 +411,11 @@
             this.resetFontSizeToolStripMenuItem.Text = "Reset Font Size";
             this.resetFontSizeToolStripMenuItem.Click += new System.EventHandler(this.resetFontSizeToolStripMenuItem_Click);
             // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("settingsToolStripMenuItem.Image")));
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
-            this.projectPageToolStripMenuItem,
-            this.reportIssueToolStripMenuItem});
+            this.projectPageToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -445,7 +424,7 @@
             // 
             this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -453,15 +432,9 @@
             // 
             this.projectPageToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("projectPageToolStripMenuItem.Image")));
             this.projectPageToolStripMenuItem.Name = "projectPageToolStripMenuItem";
-            this.projectPageToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.projectPageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.projectPageToolStripMenuItem.Text = "Project Page";
-            // 
-            // reportIssueToolStripMenuItem
-            // 
-            this.reportIssueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("reportIssueToolStripMenuItem.Image")));
-            this.reportIssueToolStripMenuItem.Name = "reportIssueToolStripMenuItem";
-            this.reportIssueToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.reportIssueToolStripMenuItem.Text = "Report Issue";
+            this.projectPageToolStripMenuItem.Click += new System.EventHandler(this.projectPageToolStripMenuItem_Click);
             // 
             // treeView
             // 
@@ -482,7 +455,7 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(118, 26);
             // 
             // removeToolStripMenuItem
             // 
@@ -500,7 +473,7 @@
             this.richTextBox.ContextMenuStrip = this.contextMenuStrip1;
             this.richTextBox.Location = new System.Drawing.Point(-7, 3);
             this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(548, 316);
+            this.richTextBox.Size = new System.Drawing.Size(551, 316);
             this.richTextBox.TabIndex = 0;
             this.richTextBox.Text = "";
             this.richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
@@ -903,7 +876,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.TreeView treeView;
@@ -929,9 +901,7 @@
         private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uPPERCASEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lowerCaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reportIssueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openDirectoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem increaseFontSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem decreaseFontSizeToolStripMenuItem;
