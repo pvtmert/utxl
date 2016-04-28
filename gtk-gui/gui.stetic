@@ -62,11 +62,13 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-undo</property>
+        <signal name="Activated" handler="undo" />
       </action>
       <action id="redoAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-redo</property>
+        <signal name="Activated" handler="redo" />
       </action>
       <action id="preferencesAction">
         <property name="Type">Action</property>
@@ -130,13 +132,17 @@
       </action>
       <action id="undoAction1">
         <property name="Type">Action</property>
+        <property name="Accelerator">&lt;Primary&gt;&lt;Mod2&gt;z</property>
         <property name="Label" translatable="yes">undo</property>
         <property name="ShortLabel" translatable="yes">undo</property>
+        <signal name="Activated" handler="undo" />
       </action>
       <action id="redoAction1">
         <property name="Type">Action</property>
+        <property name="Accelerator">&lt;Primary&gt;&lt;Mod2&gt;y</property>
         <property name="Label" translatable="yes">redo</property>
         <property name="ShortLabel" translatable="yes">redo</property>
+        <signal name="Activated" handler="redo" />
       </action>
       <action id="formatAction">
         <property name="Type">Action</property>

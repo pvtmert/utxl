@@ -79,11 +79,14 @@ public partial class main: Gtk.Window
 		t.ModifyFont (Pango.FontDescription.FromString (settings.font));
 		t.Buffer.Text = contents;
 		//Label l = new Label (label);
-		NotebookTabLabel l = new NotebookTabLabel(label,path);
-		w.Add (t);
+		Node ll = new Node (t.Buffer.Text);
+		NotebookTabLabel l = new NotebookTabLabel(label,path,ll);
 		t.Buffer.Changed += delegate(object sender, EventArgs e) {
-			
+			l.ptr.add(new Node(t.Buffer.Text.ToString()));
+			l.ptr = l.ptr.next;
+			return;
 		};
+		w.Add (t);
 		notebook.AppendPageMenu (w,l,new Label(label));
 		notebook.SetTabReorderable (notebook.GetNthPage (notebook.NPages - 1), true);
 		notebook.SetTabDetachable (notebook.GetNthPage (notebook.NPages - 1), true);
@@ -143,7 +146,7 @@ public partial class main: Gtk.Window
 			                      "SAVE!", ResponseType.Accept,
 			                      "NOPE", ResponseType.Cancel
 		                      );
-		d.SetFilename(((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).Path);
+		d.SetFilename(((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).Pth);
 		if ((ResponseType)d.Run () == ResponseType.Accept) {
 			if (System.IO.File.Exists (d.Filename)) {
 				MessageDialog d2 = new MessageDialog (this, DialogFlags.Modal, 
@@ -268,7 +271,7 @@ public partial class main: Gtk.Window
 			tree.ExpandRow (args.Path, true);
 		((TreeStore)tree.Model).GetIter (out i, args.Path);
 		for(int j=0;j<notebook.NPages;j++)
-			if(((NotebookTabLabel)notebook.GetTabLabel(notebook.GetNthPage(j))).Path == (string)((TreeStore)tree.Model).GetValue (i, 1))
+			if(((NotebookTabLabel)notebook.GetTabLabel(notebook.GetNthPage(j))).Pth == (string)((TreeStore)tree.Model).GetValue (i, 1))
 			{
 				for(int k=notebook.Page;k>j;k--)
 					notebook.PrevPage();
@@ -392,6 +395,42 @@ public partial class main: Gtk.Window
 	}
 	protected void OnBtnReleaseEvent (object o, ButtonReleaseEventArgs args)
 	{
+		return;
+	}
+	protected void undo (object o, EventArgs e)
+	{
+		if (((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev != null)
+		{
+			Node n = ((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev;
+			Node c = new Node(
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.data.ToString(),
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next,
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev
+			);
+			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text =
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev.data.ToString();
+			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = n;
+			n.next = c;
+			c.prev = n;
+		}
+		return;
+	}
+	protected void redo (object o, EventArgs e)
+	{
+		if (((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next != null)
+		{
+			Node n = ((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next;
+			Node c = new Node(
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.data.ToString(),
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next,
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev
+			);
+			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text =
+				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next.data.ToString();
+			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = n;
+			n.prev = c;
+			c.next = n;
+		}
 		return;
 	}
 }

@@ -151,10 +151,10 @@ public partial class main
 		w1.Add (this.quitAction1, null);
 		this.undoAction1 = new global::Gtk.Action ("undoAction1", global::Mono.Unix.Catalog.GetString ("undo"), null, null);
 		this.undoAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("undo");
-		w1.Add (this.undoAction1, null);
+		w1.Add (this.undoAction1, "<Primary><Mod2>z");
 		this.redoAction1 = new global::Gtk.Action ("redoAction1", global::Mono.Unix.Catalog.GetString ("redo"), null, null);
 		this.redoAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("redo");
-		w1.Add (this.redoAction1, null);
+		w1.Add (this.redoAction1, "<Primary><Mod2>y");
 		this.formatAction = new global::Gtk.Action ("formatAction", global::Mono.Unix.Catalog.GetString ("format"), null, null);
 		this.formatAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("format");
 		w1.Add (this.formatAction, null);
@@ -279,11 +279,15 @@ public partial class main
 		this.saveAction.Activated += new global::System.EventHandler (this.saveDoc);
 		this.quitAction.Activated += new global::System.EventHandler (this.QUIT);
 		this.printAction.Activated += new global::System.EventHandler (this.printDoc);
+		this.undoAction.Activated += new global::System.EventHandler (this.undo);
+		this.redoAction.Activated += new global::System.EventHandler (this.redo);
 		this.newAction1.Activated += new global::System.EventHandler (this.newDoc);
 		this.openAction1.Activated += new global::System.EventHandler (this.openDoc);
 		this.saveAction1.Activated += new global::System.EventHandler (this.saveDoc);
 		this.deleteAction.Activated += new global::System.EventHandler (this.closeDoc);
 		this.quitAction1.Activated += new global::System.EventHandler (this.QUIT);
+		this.undoAction1.Activated += new global::System.EventHandler (this.undo);
+		this.redoAction1.Activated += new global::System.EventHandler (this.redo);
 		this.dialogInfoAction.Activated += new global::System.EventHandler (this.aboutDialog);
 		this.preferencesAction1.Activated += new global::System.EventHandler (this.changeFont);
 		this.closeAction.Activated += new global::System.EventHandler (this.treeDel);

@@ -72,6 +72,7 @@
     <Compile Include="main.cs" />
     <Compile Include="nbtablbl.cs" />
     <Compile Include="settings.cs" />
+    <Compile Include="Node.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

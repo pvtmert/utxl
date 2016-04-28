@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using UTXL;
 using System;
 using Gtk;
 
@@ -26,12 +27,14 @@ namespace Alpinechough.Common.GtkUtilities
 	public class NotebookTabLabel : EventBox
 	{
 		public string Text;
-		public string Path;
-		public NotebookTabLabel (string title, string path = "/")
+		public string Pth;
+		public Node ptr;
+		public NotebookTabLabel (string title, string path = "/", Node ura = null)
 		{
 			Text = title;
-			Path = path;
-			
+			Pth = path;
+			ptr = ura;
+
 			Button button = new Button ();
 			button.Image = new Gtk.Image (Stock.Close, IconSize.SmallToolbar);
 			button.TooltipText = "Close";
