@@ -407,8 +407,7 @@ public partial class main: Gtk.Window
 				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next,
 				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev
 			);
-			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text =
-				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev.data.ToString();
+			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text = n.data.ToString();
 			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = n;
 			n.next = c;
 			c.prev = n;
@@ -425,8 +424,7 @@ public partial class main: Gtk.Window
 				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next,
 				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev
 			);
-			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text =
-				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.next.data.ToString();
+			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text = n.data.ToString();
 			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = n;
 			n.prev = c;
 			c.next = n;
