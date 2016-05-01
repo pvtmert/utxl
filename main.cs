@@ -82,6 +82,7 @@ public partial class main: Gtk.Window
 		Node ll = new Node (t.Buffer.Text);
 		NotebookTabLabel l = new NotebookTabLabel(label,path,ll);
 		t.Buffer.Changed += delegate(object sender, EventArgs e) {
+			l.ptr.rmt();
 			l.ptr.add(new Node(t.Buffer.Text.ToString()));
 			l.ptr = l.ptr.next;
 			return;
@@ -408,6 +409,7 @@ public partial class main: Gtk.Window
 				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev
 			);
 			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text = n.data.ToString();
+			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = null;
 			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = n;
 			n.next = c;
 			c.prev = n;
@@ -425,6 +427,7 @@ public partial class main: Gtk.Window
 				((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr.prev
 			);
 			((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text = n.data.ToString();
+			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = null;
 			((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).ptr = n;
 			n.prev = c;
 			c.next = n;

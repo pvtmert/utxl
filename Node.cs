@@ -101,6 +101,28 @@ namespace UTXL
 			}
 			Console.WriteLine ();
 		}
+		public void rmt()
+		{
+			return;
+			Node t = this;
+			if (t.next != null)
+				if (t.next.next != null)
+					t.next.rmt ();
+				else
+					t.next = null;
+			return;
+		}
+		public void rmh()
+		{
+			return;
+			Node t = this;
+			if (t.prev != null)
+				if (t.prev.prev != null)
+					t.prev.rmh ();
+				else
+					t.prev = null;
+			return;
+		}
 	}
 }
 
