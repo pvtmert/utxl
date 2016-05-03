@@ -289,9 +289,12 @@ public partial class main
 		this.undoAction1.Activated += new global::System.EventHandler (this.undo);
 		this.redoAction1.Activated += new global::System.EventHandler (this.redo);
 		this.dialogInfoAction.Activated += new global::System.EventHandler (this.aboutDialog);
+		this.buildAction.Activated += new global::System.EventHandler (this.make);
+		this.cleanAction.Activated += new global::System.EventHandler (this.make_clean);
 		this.preferencesAction1.Activated += new global::System.EventHandler (this.changeFont);
 		this.closeAction.Activated += new global::System.EventHandler (this.treeDel);
 		this.fontsAction.Activated += new global::System.EventHandler (this.changeFont);
+		this.runAction.Activated += new global::System.EventHandler (this.make_run);
 		this.vpaned1.ToggleHandleFocus += new global::Gtk.ToggleHandleFocusHandler (this.OnToggleHandleFocus);
 		this.vpaned2.ToggleHandleFocus += new global::Gtk.ToggleHandleFocusHandler (this.OnToggleHandleFocus);
 		this.tree.RowActivated += new global::Gtk.RowActivatedHandler (this.treeOpen);

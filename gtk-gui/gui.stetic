@@ -181,11 +181,13 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">build</property>
         <property name="ShortLabel" translatable="yes">build</property>
+        <signal name="Activated" handler="make" />
       </action>
       <action id="cleanAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">clean</property>
         <property name="ShortLabel" translatable="yes">clean</property>
+        <signal name="Activated" handler="make_clean" />
       </action>
       <action id="preferencesAction1">
         <property name="Type">Action</property>
@@ -210,6 +212,7 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">run</property>
         <property name="ShortLabel" translatable="yes">run</property>
+        <signal name="Activated" handler="make_run" />
       </action>
       <action id="saveAsAction1">
         <property name="Type">Action</property>

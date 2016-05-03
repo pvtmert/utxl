@@ -280,16 +280,27 @@ public partial class main: Gtk.Window
 					notebook.NextPage();
 				return;
 			}
+		TreeModelSort s = new TreeModelSort ((TreeStore)tree.Model);
+		s.SetSortFunc(1, delegate(TreeModel m, TreeIter a, TreeIter b) {
+			return String.Compare((string)m.GetValue(a, 1), (string)m.GetValue(b, 1));
+		});
+		tree.Model = s.Model;
+		try {
 		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
 			//if (tree.GetRowExpanded (args.Path))
+			if(!tree.Model.IterHasChild(i))
 				foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
 					populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
+			else ;
 			//else ((TreeStore)tree.Model).Remove (ref i);
 		else
 			newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
 				System.IO.File.ReadAllText ((string)(
 					(TreeStore)tree.Model).GetValue (i, 1)),
 				(string)((TreeStore)tree.Model).GetValue (i, 1));
+		} catch(Exception e) {
+			Console.WriteLine (e.ToString ());
+		}
 		return;
 	}
 
@@ -432,6 +443,21 @@ public partial class main: Gtk.Window
 			n.prev = c;
 			c.next = n;
 		}
+		return;
+	}
+	protected void make (object o, EventArgs e)
+	{
+		System.Diagnostics.Process.Start ("make; read;");
+		return;
+	}
+	protected void make_run (object o, EventArgs e)
+	{
+		System.Diagnostics.Process.Start ("make run; read;");
+		return;
+	}
+	protected void make_clean (object o, EventArgs e)
+	{
+		System.Diagnostics.Process.Start ("make clean; read;");
 		return;
 	}
 }
