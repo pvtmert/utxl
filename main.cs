@@ -181,6 +181,41 @@ public partial class main: Gtk.Window
 	}
 	protected void printDoc (object o, EventArgs e)
 	{
+		PrintUnixDialog d = new PrintUnixDialog ("PRINT!", this);
+		if ((ResponseType)d.Run () != ResponseType.Ok) {
+			d.Destroy ();
+			return;
+		}
+		PrintJob j = new PrintJob (System.IO.Path.GetFileName (((NotebookTabLabel)notebook.GetTabLabel (notebook.GetNthPage (notebook.Page))).Pth), d.SelectedPrinter, d.PrintSettings, d.PageSetup);
+		System.IO.File.WriteAllText (".tmp", ((TextView)((ScrolledWindow)notebook.GetNthPage (notebook.Page)).Child).Buffer.Text);
+		j.SetSourceFile (".tmp");
+		j.Send (delegate(PrintJob print_job, IntPtr user_data, IntPtr error) {
+			Console.WriteLine("finished");
+			return;
+		});
+		PrintOperation p = new PrintOperation ();
+		p.PrintSettings = d.PrintSettings;
+		Console.WriteLine (d.Settings.Collate);
+		Console.WriteLine (d.Settings.DefaultSource);
+		Console.WriteLine (d.Settings.Dither);
+		Console.WriteLine (d.Settings.Duplex);
+		Console.WriteLine (d.Settings.Finishings);
+		Console.WriteLine (d.Settings.MediaType);
+		Console.WriteLine (d.Settings.NCopies);
+		Console.WriteLine (d.Settings.NumberUp);
+		Console.WriteLine (d.Settings.Orientation);
+		Console.WriteLine (d.Settings.OutputBin);
+		Console.WriteLine (d.Settings.PageSet);
+		Console.WriteLine (d.Settings.PaperSize);
+		Console.WriteLine (d.Settings.Printer);
+		Console.WriteLine (d.Settings.PrintPages);
+		Console.WriteLine (d.Settings.Quality);
+		Console.WriteLine (d.Settings.Resolution);
+		Console.WriteLine (d.Settings.Reverse);
+		Console.WriteLine (d.Settings.Scale);
+		PrintOperationResult r = p.Run (PrintOperationAction.Print, this);
+		Console.WriteLine (r.ToString ());
+		d.Destroy();
 		return;
 	}
 	protected void closeDoc (object o, EventArgs e)
@@ -246,14 +281,13 @@ public partial class main: Gtk.Window
 				p = t.AppendValues( new string [] { System.IO.Path.GetFileName(root)+"/", System.IO.Path.GetFullPath(root), } );
 			else
 				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root)+"/", System.IO.Path.GetFullPath(root), } );
-			tree.ExpandToPath(t.GetPath(p));
+			//if (_f) tree.ExpandToPath(t.GetPath(p));
 			if (_f || parent.Equals(TreeIter.Zero))
 				foreach (string d in System.IO.Directory.GetDirectories(root))
 					this.populateTree (t,d,p,false);
-			foreach (string f in System.IO.Directory.GetFiles(root,"*")) {
+					//new System.Threading.Thread (populateTree).Start (t,d,p,false);
+			foreach (string f in System.IO.Directory.GetFiles(root,"*"))
 				t.AppendValues(p, new string [] { System.IO.Path.GetFileName(f), System.IO.Path.GetFullPath(f), } );
-				continue;
-			}
 		} catch(Exception e) {
 			Console.WriteLine (e.Message);
 		}
@@ -286,7 +320,7 @@ public partial class main: Gtk.Window
 		try {
 			if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
 				//if (tree.GetRowExpanded (args.Path))
-				//if(!tree.Model.IterHasChild(i))
+				if(!tree.Model.IterHasChild(i))
 					foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
 						populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
 				//else ((TreeStore)tree.Model).Remove (ref i);
@@ -298,7 +332,7 @@ public partial class main: Gtk.Window
 						((TreeStore)tree.Model).Remove(ref i);
 					}
 				*/
-				//else ;
+				else ;
 			else
 				newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
 					System.IO.File.ReadAllText ((string)(
