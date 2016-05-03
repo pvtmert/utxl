@@ -32,7 +32,7 @@ public partial class main: Gtk.Window
 		settings = new settings ();
 		this.SetIconFromFile ("icon.png");
 		SetDefaultIconFromFile ("icon.png");
-		System.IO.File.AppendAllText ("settings.ini", "");
+		System.IO.File.AppendAllText ("settings.ini", null);
 		settings.load ();
 		Build ();
 		this.Resize (settings.width, settings.height);
@@ -238,7 +238,7 @@ public partial class main: Gtk.Window
 		d.Destroy ();
 		return;
 	}
-	private void populateTree(TreeStore t, string root, TreeIter parent) 
+	private void populateTree(TreeStore t, string root, TreeIter parent, bool _f = true) 
 	{
 		try {
 			TreeIter p;
@@ -247,11 +247,9 @@ public partial class main: Gtk.Window
 			else
 				p = t.AppendValues(parent, new string [] { System.IO.Path.GetFileName(root)+"/", System.IO.Path.GetFullPath(root), } );
 			tree.ExpandToPath(t.GetPath(p));
-			foreach (string d in System.IO.Directory.GetDirectories(root)) {
-				if (parent.Equals(TreeIter.Zero))
-					this.populateTree (t,d,p);
-				continue;
-			}
+			if (_f || parent.Equals(TreeIter.Zero))
+				foreach (string d in System.IO.Directory.GetDirectories(root))
+					this.populateTree (t,d,p,false);
 			foreach (string f in System.IO.Directory.GetFiles(root,"*")) {
 				t.AppendValues(p, new string [] { System.IO.Path.GetFileName(f), System.IO.Path.GetFullPath(f), } );
 				continue;
@@ -284,22 +282,30 @@ public partial class main: Gtk.Window
 		s.SetSortFunc(1, delegate(TreeModel m, TreeIter a, TreeIter b) {
 			return String.Compare((string)m.GetValue(a, 1), (string)m.GetValue(b, 1));
 		});
-		tree.Model = s.Model;
+		//tree.Model = s.Model;
 		try {
-		if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
-			//if (tree.GetRowExpanded (args.Path))
-			if(!tree.Model.IterHasChild(i))
-				foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
-					populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
-			else ;
-			//else ((TreeStore)tree.Model).Remove (ref i);
-		else
-			newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
-				System.IO.File.ReadAllText ((string)(
-					(TreeStore)tree.Model).GetValue (i, 1)),
-				(string)((TreeStore)tree.Model).GetValue (i, 1));
+			if (System.IO.Directory.Exists ((string)((TreeStore)tree.Model).GetValue (i, 1)))
+				//if (tree.GetRowExpanded (args.Path))
+				//if(!tree.Model.IterHasChild(i))
+					foreach (string d in System.IO.Directory.GetDirectories((string)((TreeStore)tree.Model).GetValue (i, 1)))
+						populateTree ((TreeStore)tree.Model, System.IO.Path.GetFullPath (d), i);
+				//else ((TreeStore)tree.Model).Remove (ref i);
+				/*
+				else if(!tree.GetRowExpanded(args.Path))
+					for(int n=1;n<tree.Model.IterNChildren();n++)
+					{
+						tree.Model.IterNthChild(out i,n);
+						((TreeStore)tree.Model).Remove(ref i);
+					}
+				*/
+				//else ;
+			else
+				newTab ((string)((TreeStore)tree.Model).GetValue (i, 0),
+					System.IO.File.ReadAllText ((string)(
+						(TreeStore)tree.Model).GetValue (i, 1)),
+					(string)((TreeStore)tree.Model).GetValue (i, 1));
 		} catch(Exception e) {
-			Console.WriteLine (e.ToString ());
+			Console.WriteLine (e.Message);
 		}
 		return;
 	}
