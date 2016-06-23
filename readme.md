@@ -4,11 +4,14 @@
 
 [![Join the chat at https://gitter.im/pvtmert/utxl](https://badges.gitter.im/pvtmert/utxl.svg)](https://gitter.im/pvtmert/utxl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+
 A casual text editor, with file-tree to allow easy navigation within editor (which is currently standard in most modern editors), supports tabs.
 
 Actually this is our term project in C-sharp class in Bahcesehir University. Uses GTK (GTK#) for UI stuff to make it avaliable for OSX, Linux and Windows (aka cross-platform).
 
-Currently it still needs to be updated, such as undo-redo operations are missing. But we use INI file as settings storage and all are implemented, of course functioning again but has no UI.
+Currently it still needs to be updated, ~such as undo-redo operations are missing~. But we use INI file as settings storage and all are implemented, of course functioning again but has no UI.
+
+![a screenshot of editor](/ss.png?raw=true "Looks like this")
 
 Let's look at core functions:
 - Open button opens directory, not files... When you open directory you double click those files from the left side tree. Thus will open such file in new tab within main editor area. And if it was already opened, it will switch to that tab.
