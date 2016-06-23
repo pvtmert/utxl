@@ -59,9 +59,7 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="gtk-gui\main.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="gtk-gui\main.cs" />
     <Compile Include="main.cs" />
     <Compile Include="nbtablbl.cs" />
     <Compile Include="settings.cs" />
